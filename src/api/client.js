@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { getCookie, setCookie, deleteCookie } from '../utils/cookies.js';
+import {
+  readStorageItem,
+  deleteStorageItem,
+  writeStorageItem,
+} from '../utils/storage.js';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -14,7 +18,7 @@ const client = axios.create({
 // Interceptor untuk menambahkan access token
 client.interceptors.request.use(
   (config) => {
-    const token = getCookie('accessToken');
+    const token = readStorageItem('accessToken');
     if (token) {
       config.headers = config.headers ?? {};
       config.headers.Authorization = `Bearer ${token}`;
@@ -34,7 +38,7 @@ client.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = getCookie('refreshToken');
+        const refreshToken = readStorageItem('refreshToken');
         if (!refreshToken) {
           throw new Error('No refresh token');
         }
@@ -44,19 +48,14 @@ client.interceptors.response.use(
         });
 
         const { accessToken } = response.data.data;
-        setCookie('accessToken', accessToken, {
-          maxAge: 60 * 60,
-          path: '/',
-          sameSite: 'lax',
-          secure: window.location.protocol === 'https:',
-        });
+        writeStorageItem('accessToken', accessToken);
 
         originalRequest.headers = originalRequest.headers ?? {};
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return client(originalRequest);
       } catch (refreshError) {
-        deleteCookie('accessToken');
-        deleteCookie('refreshToken');
+        deleteStorageItem('accessToken');
+        deleteStorageItem('refreshToken');
         window.location.href = '/login';
         return Promise.reject(refreshError);
       }
