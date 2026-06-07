@@ -16,11 +16,8 @@ export default function LandingHero() {
           jaga streak harian, dan saingi temanmu di leaderboard.
         </p>
         <div className="landing-hero-actions">
-          <Link href="/register" className="btn btn-primary landing-cta-btn">
+          <Link to="/home" className="btn btn-primary landing-cta-btn">
             Mulai sekarang
-          </Link>
-          <Link href="/login" className="btn btn-secondary landing-cta-btn">
-            Sudah punya akun
           </Link>
         </div>
         <dl className="landing-stats" hidden>
