@@ -38,4 +38,5 @@ jobs:
       - name: Install dependencies and run tests
         run: |
           pnpm install
+          pnpm exec cypress install
           pnpm ci:test
