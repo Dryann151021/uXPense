@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from '../../hooks/useForm.jsx';
 
 const categories = [
@@ -11,7 +12,11 @@ const categories = [
   'Health',
 ];
 
-export default function ExpenseForm() {
+export default function ExpenseForm({ onSubmit }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
   const {
     form: formData,
     handleChange,
@@ -23,9 +28,34 @@ export default function ExpenseForm() {
     date: new Date().toISOString().split('T')[0],
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Expense submitted:', formData);
+    setError('');
+    setMessage('');
+
+    const payload = {
+      category: formData.category,
+      amount: Number(formData.amount),
+      description: formData.description,
+      date: formData.date,
+    };
+
+    if (!onSubmit) {
+      console.log('Expense submitted:', payload);
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const result = await onSubmit(payload);
+    setIsSubmitting(false);
+
+    if (!result.success) {
+      setError(result.error);
+      return;
+    }
+
+    setMessage('Pengeluaran berhasil ditambahkan.');
     resetForm({
       category: '',
       amount: '',
@@ -105,12 +135,16 @@ export default function ExpenseForm() {
           />
         </div>
 
+        {message && <div className="form-success">{message}</div>}
+        {error && <div className="form-error">{error}</div>}
+
         <button
           type="submit"
           className="btn btn-primary"
           style={{ width: '100%' }}
+          disabled={isSubmitting}
         >
-          Catat Pengeluaran
+          {isSubmitting ? 'Menyimpan...' : 'Catat Pengeluaran'}
         </button>
       </form>
     </div>
