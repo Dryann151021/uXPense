@@ -12,7 +12,7 @@ export default function LandingCTA() {
           menit.
         </p>
         <Link to="/register" className="btn landing-cta-button">
-          Buat akun gratis
+          Daftar
         </Link>
       </div>
     </section>

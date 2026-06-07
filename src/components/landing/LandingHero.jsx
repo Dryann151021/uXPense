@@ -23,7 +23,7 @@ export default function LandingHero() {
             Sudah punya akun
           </Link>
         </div>
-        <dl className="landing-stats">
+        <dl className="landing-stats" hidden>
           <div className="landing-stat">
             <dt className="landing-stat-value">12rb+</dt>
             <dd className="landing-stat-label">Pengguna aktif</dd>
