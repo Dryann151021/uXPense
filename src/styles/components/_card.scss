@@ -1,0 +1,23 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.card {
+  @include card;
+}
+
+.card-header {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  margin-bottom: $spacing-md;
+  color: var(--color-text);
+}
+
+.card-content {
+  font-size: $font-size-sm;
+  color: var(--color-text-muted);
+}
+
+.empty-card {
+  @include card;
+  min-height: 280px;
+}

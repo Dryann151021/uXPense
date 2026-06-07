@@ -1,0 +1,47 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.welcome-card {
+  position: relative;
+  overflow: hidden;
+  @include flex-between;
+  gap: $spacing-lg;
+  background: linear-gradient(120deg, #6366f1 0%, #818cf8 55%, #a78bfa 100%);
+  border: none;
+  border-radius: $border-radius-xl;
+  padding: $spacing-xl;
+  color: #fff;
+  box-shadow: var(--shadow-lg);
+
+  h2 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacing-xs;
+    color: #fff;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0;
+  }
+}
+
+.welcome-name {
+  color: #fde68a;
+}
+
+.welcome-emoji {
+  @include flex-center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: $border-radius-lg;
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+}

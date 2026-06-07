@@ -1,0 +1,124 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.user-status-card {
+  @include card;
+}
+
+.status-title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-lg;
+  color: var(--color-text);
+}
+
+.status-profile {
+  @include flex-start;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+}
+
+.status-profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  margin-bottom: 2px;
+  color: var(--color-text);
+}
+
+.user-level {
+  font-size: $font-size-sm;
+  color: var(--color-text-muted);
+  margin-bottom: $spacing-sm;
+}
+
+.status-level-row {
+  @include flex-start;
+  gap: $spacing-sm;
+}
+
+.status-level-label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.level-bar {
+  position: relative;
+  flex: 1;
+  height: 8px;
+  background-color: var(--color-surface-muted);
+  border-radius: $border-radius-full;
+
+  .level-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
+    border-radius: $border-radius-full;
+    @include transition(width);
+  }
+
+  .level-bar-knob {
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    background-color: var(--color-success);
+    border: 2px solid var(--color-surface);
+    border-radius: $border-radius-full;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.status-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-sm;
+  text-align: center;
+}
+
+.status-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-xs;
+  border-radius: $border-radius-md;
+  background-color: var(--color-surface-muted);
+}
+
+.status-stat-icon {
+  @include flex-center;
+  width: 36px;
+  height: 36px;
+  border-radius: $border-radius-full;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-primary);
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &.flame {
+    color: var(--color-accent-flame);
+  }
+  &.gold {
+    color: var(--color-warning);
+  }
+  &.dark {
+    color: var(--color-accent-purple);
+  }
+}
+
+.status-stat-value {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: var(--color-text);
+}

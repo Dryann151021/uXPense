@@ -1,0 +1,134 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.leaderboard-toolbar {
+  @include flex-start;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+  margin-bottom: $spacing-xl;
+}
+
+.leaderboard-toolbar-label {
+  font-weight: $font-weight-semibold;
+  color: var(--color-text);
+}
+
+.leaderboard-sort-select {
+  display: inline-block;
+  width: auto;
+  min-width: 150px;
+}
+
+.leaderboard-rank {
+  @include flex-start;
+  gap: $spacing-xs;
+  font-weight: $font-weight-bold;
+  color: var(--color-text);
+}
+
+.leaderboard-medal {
+  @include flex-center;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &.is-gold {
+    color: var(--color-warning);
+  }
+  &.is-silver {
+    color: var(--color-text-muted);
+  }
+  &.is-bronze {
+    color: var(--color-accent-flame);
+  }
+}
+
+.leaderboard-username {
+  font-weight: $font-weight-semibold;
+  color: var(--color-text);
+}
+
+.leaderboard-you-tag {
+  margin-left: $spacing-sm;
+  font-size: $font-size-xs;
+  color: var(--color-text-muted);
+}
+
+.leaderboard-row-you {
+  background-color: var(--color-success-soft) !important;
+}
+
+.leaderboard-level-badge {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-xs;
+}
+
+.leaderboard-streak-days {
+  font-size: $font-size-xs;
+  color: var(--color-text-muted);
+  margin-top: $spacing-xs;
+}
+
+.leaderboard-streak-icons {
+  @include flex-center;
+  gap: 2px;
+  color: var(--color-accent-flame);
+
+  .leaderboard-streak-flame {
+    @include flex-center;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+// ==================== Leaderboard stats ====================
+.leaderboard-stats {
+  margin-top: $spacing-xl;
+  padding: $spacing-lg;
+  background-color: var(--color-surface-muted);
+  border-radius: $border-radius-md;
+}
+
+.leaderboard-stats-title {
+  margin-bottom: $spacing-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: var(--color-text);
+}
+
+.leaderboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: $spacing-md;
+}
+
+.leaderboard-stat-label {
+  font-size: $font-size-xs;
+  color: var(--color-text-muted);
+  margin-bottom: $spacing-xs;
+}
+
+.leaderboard-stat-value {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+
+  &.is-primary {
+    color: var(--color-primary);
+  }
+  &.is-flame {
+    color: var(--color-accent-flame);
+  }
+  &.is-success {
+    color: var(--color-success);
+  }
+}
