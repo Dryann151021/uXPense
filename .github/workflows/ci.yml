@@ -25,7 +25,17 @@ jobs:
         with:
           version: 10
 
+      - name: Setup Cache for pnpm and Cypress
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/Cypress
+            ~/.local/share/pnpm/store
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
       - name: Install dependencies and run tests
         run: |
-          pnpm install
+          pnpm install --only-built-dependencies=@parcel/watcher,cypress
           pnpm ci:test
