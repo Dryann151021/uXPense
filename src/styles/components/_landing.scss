@@ -107,7 +107,8 @@
 }
 
 .landing-stats {
-  display: flex;
+  // display: flex;
+  display: none;
   flex-wrap: wrap;
   gap: $spacing-2xl;
   margin-top: $spacing-lg;
