@@ -1,0 +1,134 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.chart-container {
+  @include card;
+  overflow-x: auto;
+
+  h3 {
+    margin-bottom: $spacing-lg;
+  }
+
+  .recharts-responsive-container {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+.chart-header {
+  @include flex-between;
+  align-items: flex-start;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+  flex-wrap: wrap;
+}
+
+.chart-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  margin-bottom: 2px;
+  color: var(--color-text);
+}
+
+.chart-subtitle {
+  font-size: $font-size-sm;
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+.chart-legend-pills {
+  @include flex-start;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.legend-pill {
+  @include flex-start;
+  gap: $spacing-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: var(--color-text);
+  background-color: var(--color-surface-muted);
+  padding: 6px $spacing-md;
+  border-radius: $border-radius-full;
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: $border-radius-full;
+  }
+}
+
+// ==================== Recorded expense card ====================
+.recorded-head {
+  @include flex-between;
+  align-items: flex-start;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.recorded-title {
+  font-size: 28px;
+  font-weight: $font-weight-bold;
+  line-height: 1.1;
+  margin-bottom: 2px;
+  color: var(--color-text);
+}
+
+.recorded-subtitle {
+  font-size: $font-size-sm;
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+.recorded-badge {
+  @include flex-center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius-md;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.quest-section {
+  margin-top: $spacing-lg;
+}
+
+.quest-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-sm;
+  color: var(--color-text);
+}
+
+.quest-bar {
+  width: 100%;
+  height: 22px;
+  background-color: var(--color-surface-muted);
+  border-radius: $border-radius-full;
+  overflow: hidden;
+
+  .quest-bar-fill {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-accent-purple) 100%
+    );
+    border-radius: $border-radius-full;
+    @include flex-center;
+    @include transition(width);
+
+    .quest-bar-text {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-bold;
+      color: #fff;
+    }
+  }
+}

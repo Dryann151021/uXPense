@@ -1,0 +1,31 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.container {
+  max-width: $content-max-width;
+  margin: 0 auto;
+  padding: $spacing-lg;
+
+  @include respond-to('md') {
+    padding: $spacing-xl;
+  }
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: $header-height;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: $content-max-width;
+  margin: 0 auto;
+  padding: $spacing-lg;
+
+  @include respond-to('md') {
+    padding: $spacing-xl;
+  }
+}

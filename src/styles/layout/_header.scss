@@ -1,0 +1,292 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $header-height;
+  background-color: var(--color-header-bg);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  @include flex-between;
+  padding: 0 $spacing-lg;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color $transition-normal,
+    border-color $transition-normal;
+
+  @include respond-to('md') {
+    padding: 0 $spacing-xl;
+  }
+
+  .header-left {
+    @include flex-start;
+    gap: $spacing-xl;
+
+    .mobile-menu-btn {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      @include btn-reset;
+      cursor: pointer;
+
+      @include respond-to('md') {
+        display: none;
+      }
+
+      span {
+        width: 24px;
+        height: 2px;
+        background-color: var(--color-text);
+        border-radius: 1px;
+        @include transition(all);
+      }
+
+      &.active span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+      }
+
+      &.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      &.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+    }
+
+    .logo {
+      @include flex-start;
+      gap: $spacing-sm;
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-bold;
+      color: var(--color-text);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-text);
+      }
+
+      .logo-mark {
+        @include flex-center;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+
+        svg {
+          width: 36px;
+          height: 36px;
+        }
+      }
+      .logo-text {
+        @include text-truncate;
+      }
+    }
+    .nav {
+      display: none;
+      gap: $spacing-xl;
+
+      @include respond-to('md') {
+        @include flex-start;
+      }
+
+      .nav-link {
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+        color: var(--color-text-muted);
+        @include transition(all);
+        cursor: pointer;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $border-radius-full;
+
+        &:hover {
+          color: var(--color-primary);
+          background-color: var(--color-primary-soft);
+        }
+
+        &.active {
+          color: var(--color-primary);
+          background-color: var(--color-primary-soft);
+          font-weight: $font-weight-semibold;
+        }
+      }
+    }
+  }
+
+  .header-right {
+    @include flex-between;
+    gap: $spacing-md;
+
+    @include respond-to('md') {
+      gap: $spacing-lg;
+    }
+
+    // Theme toggle button
+    .theme-toggle {
+      position: relative;
+      @include flex-center;
+      @include btn-reset;
+      width: 40px;
+      height: 40px;
+      border-radius: $border-radius-full;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface-muted);
+      @include transition(all);
+
+      &:hover {
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .theme-toggle-sun {
+        display: none;
+      }
+      .theme-toggle-moon {
+        display: block;
+      }
+    }
+
+    [data-theme='dark'] .theme-toggle {
+      .theme-toggle-sun {
+        display: block;
+      }
+      .theme-toggle-moon {
+        display: none;
+      }
+    }
+
+    .header-icon {
+      position: relative;
+      cursor: pointer;
+      @include flex-center;
+      @include btn-reset;
+      width: 40px;
+      height: 40px;
+      border-radius: $border-radius-full;
+      color: var(--color-text);
+      @include transition(background-color);
+
+      &:hover {
+        background-color: var(--color-surface-muted);
+      }
+
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background-color: var(--color-danger);
+      border: 2px solid var(--color-surface);
+      border-radius: $border-radius-full;
+      width: 10px;
+      height: 10px;
+    }
+
+    .streak-display {
+      @include flex-start;
+      gap: $spacing-xs;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+      color: var(--color-accent-flame);
+      background-color: var(--color-warning-soft);
+      padding: 6px $spacing-md;
+      border-radius: $border-radius-full;
+
+      .streak-flame {
+        @include flex-center;
+        color: var(--color-accent-flame);
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+
+    .user-avatar-outline {
+      width: 40px;
+      height: 40px;
+      border-radius: $border-radius-full;
+      background:
+        linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+        linear-gradient(
+            135deg,
+            var(--color-accent-purple),
+            var(--color-primary)
+          )
+          border-box;
+      border: 2px solid transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      @include transition(transform);
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &.lg {
+        width: 64px;
+        height: 64px;
+        border-width: 3px;
+      }
+    }
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  top: $header-height;
+  left: 0;
+  right: 0;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 999;
+  box-shadow: var(--shadow-md);
+
+  @include respond-to('md') {
+    display: none !important;
+  }
+
+  .mobile-menu-link {
+    padding: $spacing-md $spacing-lg;
+    color: var(--color-text);
+    @include transition(all);
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none;
+    font-size: $font-size-base;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: var(--color-surface-muted);
+      color: var(--color-primary);
+    }
+
+    &.active {
+      background-color: var(--color-surface-muted);
+      color: var(--color-primary);
+      font-weight: $font-weight-semibold;
+    }
+  }
+}
