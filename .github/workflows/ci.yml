@@ -37,5 +37,5 @@ jobs:
 
       - name: Install dependencies and run tests
         run: |
-          pnpm install --only-built-dependencies=@parcel/watcher,cypress
+          pnpm install
           pnpm ci:test
