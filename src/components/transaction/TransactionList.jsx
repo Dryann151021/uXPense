@@ -3,57 +3,39 @@
 import { useState } from 'react';
 import { formatCurrency, formatDate } from '../../utils/format.js';
 
-const mockTransactions = {
-  expense: [
-    {
-      id: 1,
-      category: 'Food',
-      amount: 50000,
-      description: 'Lunch at restaurant',
-      date: '2024-06-06',
-    },
-    {
-      id: 2,
-      category: 'Transport',
-      amount: 30000,
-      description: 'Grab ride',
-      date: '2024-06-05',
-    },
-    {
-      id: 3,
-      category: 'Shopping',
-      amount: 200000,
-      description: 'Groceries',
-      date: '2024-06-04',
-    },
-    {
-      id: 4,
-      category: 'Entertainment',
-      amount: 100000,
-      description: 'Movie tickets',
-      date: '2024-06-03',
-    },
-    {
-      id: 5,
-      category: 'Bills',
-      amount: 500000,
-      description: 'Electricity bill',
-      date: '2024-06-02',
-    },
-  ],
-};
-
-export default function TransactionList() {
+export default function TransactionList({ transactions = [], loading, error }) {
   const [selectedCategory, setSelectedCategory] = useState('');
-  const transactions = mockTransactions.expense;
 
   const filtered = selectedCategory
     ? transactions.filter((t) => t.category === selectedCategory)
     : transactions;
 
-  const categories = [...new Set(transactions.map((t) => t.category))];
+  const categories = [
+    ...new Set(transactions.map((t) => t.category).filter(Boolean)),
+  ];
 
-  const totalAmount = filtered.reduce((sum, t) => sum + t.amount, 0);
+  const totalAmount = filtered.reduce(
+    (sum, t) => sum + Number(t.amount || 0),
+    0,
+  );
+
+  if (loading) {
+    return (
+      <div className="card">
+        <h3>Daftar Pengeluaran</h3>
+        <div className="transaction-empty">Memuat pengeluaran...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="card">
+        <h3>Daftar Pengeluaran</h3>
+        <div className="transaction-empty">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="card">
