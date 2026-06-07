@@ -29,3 +29,23 @@
     padding: $spacing-xl;
   }
 }
+
+.not-found-content {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  gap: $spacing-lg;
+  text-align: center;
+
+  h1 {
+    font-size: 4rem;
+    font-weight: lighter;
+    font-family: ui-sans-serif, system-ui, 'Segoe UI', 'Noto Sans', sans-serif;
+
+    span {
+      font-weight: normal;
+    }
+  }
+}
