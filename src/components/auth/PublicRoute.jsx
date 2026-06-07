@@ -1,14 +1,14 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth.jsx';
 
-export default function PrivateRoute({ redirectTo = '/login' }) {
+export default function PublicRoute({ redirectTo = '/home' }) {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
     return null;
   }
 
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     return <Navigate to={redirectTo} replace />;
   }
 

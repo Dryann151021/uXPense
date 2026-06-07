@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth.jsx';
 import ThemeToggle from '../theme/ThemeToggle.jsx';
 
 const navLinks = [
@@ -14,9 +15,16 @@ const navLinks = [
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/', { replace: true });
   };
 
   return (
@@ -35,7 +43,7 @@ export default function Header() {
             <span></span>
           </button>
 
-          <Link href="/" className="logo" aria-label="Cuan home">
+          <Link to="/" className="logo" aria-label="Cuan landing page">
             <span className="logo-mark" aria-hidden="true">
               <svg viewBox="0 0 32 32" fill="none">
                 <rect width="32" height="32" rx="9" fill="url(#logoGrad)" />
@@ -75,6 +83,16 @@ export default function Header() {
           {/* Theme Toggle */}
           <ThemeToggle />
 
+          {isAuthenticated && (
+            <button
+              type="button"
+              className="logout-button"
+              onClick={handleLogout}
+            >
+              Keluar
+            </button>
+          )}
+
           {/* Notification Bell */}
           <button className="header-icon" aria-label="Notifications">
             <svg
@@ -105,7 +123,7 @@ export default function Header() {
             title="User Profile"
             aria-label="User profile"
           >
-            <img src="../../../public/placeholder-user.jpg" alt="users" />
+            <img src="/placeholder-user.jpg" alt="users" />
           </div>
         </div>
       </header>
