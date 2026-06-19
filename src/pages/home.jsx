@@ -5,6 +5,7 @@ import WelcomeCard from '../components/dashboard/WelcomeCard.jsx';
 import ExpenseChart from '../components/dashboard/ExpenseChart.jsx';
 import UserStatusCard from '../components/dashboard/UserStatusCard.jsx';
 import MonthlyExpenseChart from '../components/dashboard/MonthlyExpenseChart.jsx';
+import FAB from '../components/layout/FAB.jsx';
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
             <MonthlyExpenseChart />
           </div>
         </div>
+        <FAB to="/expense" />
       </main>
     </>
   );

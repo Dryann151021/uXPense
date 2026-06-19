@@ -20,6 +20,9 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
-    pluginCypress: pluginCypress.configs.recommended,
+  },
+  {
+    ...pluginCypress.configs.recommended,
+    files: ['cypress/**/*.{js,jsx}', '**/*.cy.{js,jsx}'],
   },
 ]);

@@ -28,7 +28,7 @@ export function writeStorageItem(key, value) {
   }
 }
 
-export function deleteStorageItem(key) {
+export function removeStorageItem(key) {
   if (typeof window === 'undefined') {
     return;
   }
@@ -36,6 +36,6 @@ export function deleteStorageItem(key) {
   try {
     window.localStorage.removeItem(key);
   } catch (error) {
-    console.error(`Failed to delete localStorage item ${key}:`, error);
+    console.error(`Failed to remove localStorage item ${key}:`, error);
   }
 }

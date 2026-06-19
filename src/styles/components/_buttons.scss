@@ -53,3 +53,34 @@
     filter: brightness(0.94);
   }
 }
+
+.fab-button,
+.fab-link {
+  position: fixed;
+  bottom: $spacing-2xl;
+  right: $spacing-2xl;
+  width: 56px;
+  height: 56px;
+  border-radius: $border-radius-full;
+  background-color: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  z-index: 100;
+  border: none;
+  @include transition(all);
+
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    background-color: var(--color-primary-hover);
+  }
+
+  .fab-icon {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-light;
+    line-height: 1;
+  }
+}

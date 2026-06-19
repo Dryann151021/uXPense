@@ -6,7 +6,9 @@ export default function UserStatusCard() {
       <div className="status-title">Status kamu</div>
 
       <div className="status-profile">
-        <div className="user-avatar-outline lg" aria-hidden="true"></div>
+        <div className="user-avatar-outline lg" aria-hidden="true">
+          <img src="/placeholder-user.jpg" alt="users" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+        </div>
         <div className="status-profile-info">
           <div className="user-name">Users</div>
           <div className="user-level">Status Level User</div>
