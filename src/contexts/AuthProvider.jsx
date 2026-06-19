@@ -1,30 +1,28 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { AuthContext } from './AuthContext.jsx';
 import { authApi } from '../api/auth.js';
 import { decodeJwtPayload } from '../utils/auth.js';
-import { getCookie, setCookie, deleteCookie } from '../utils/cookies.js';
+import { readStorageItem, writeStorageItem, removeStorageItem } from '../utils/storage.js';
+
+const initialAccessToken = readStorageItem('accessToken', null);
+const initialRefreshToken = readStorageItem('refreshToken', null);
+const initialToken =
+  initialAccessToken && initialRefreshToken
+    ? { accessToken: initialAccessToken, refreshToken: initialRefreshToken }
+    : null;
+const initialUser = (() => {
+  if (!initialAccessToken) return null;
+  const payload = decodeJwtPayload(initialAccessToken);
+  return payload ? { id: payload.id } : null;
+})();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(initialUser);
+  const [token, setToken] = useState(initialToken);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const accessToken = getCookie('accessToken');
-    const refreshToken = getCookie('refreshToken');
-
-    if (accessToken && refreshToken) {
-      setToken({ accessToken, refreshToken });
-      const payload = decodeJwtPayload(accessToken);
-      if (payload) {
-        setUser({ id: payload.id });
-      }
-    }
-    setIsLoading(false);
-  }, []);
 
   const login = useCallback(async (username, password) => {
     setIsLoading(true);
@@ -35,18 +33,8 @@ export function AuthProvider({ children }) {
         password,
       );
 
-      setCookie('accessToken', accessToken, {
-        maxAge: 60 * 60,
-        path: '/',
-        sameSite: 'lax',
-        secure: window.location.protocol === 'https:',
-      });
-      setCookie('refreshToken', refreshToken, {
-        maxAge: 60 * 60 * 24 * 30,
-        path: '/',
-        sameSite: 'lax',
-        secure: window.location.protocol === 'https:',
-      });
+      writeStorageItem('accessToken', accessToken);
+      writeStorageItem('refreshToken', refreshToken);
 
       const payload = decodeJwtPayload(accessToken);
       setToken({ accessToken, refreshToken });
@@ -82,15 +70,15 @@ export function AuthProvider({ children }) {
   const logout = useCallback(async () => {
     setIsLoading(true);
     try {
-      const refreshToken = getCookie('refreshToken');
+      const refreshToken = readStorageItem('refreshToken', null);
       if (refreshToken) {
         await authApi.logout(refreshToken);
       }
     } catch (err) {
       console.error('Logout error:', err);
     } finally {
-      deleteCookie('accessToken');
-      deleteCookie('refreshToken');
+      removeStorageItem('accessToken');
+      removeStorageItem('refreshToken');
       setUser(null);
       setToken(null);
       setIsLoading(false);

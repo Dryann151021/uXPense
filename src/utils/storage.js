@@ -27,3 +27,15 @@ export function writeStorageItem(key, value) {
     console.error(`Failed to write localStorage item ${key}:`, error);
   }
 }
+
+export function removeStorageItem(key) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  try {
+    window.localStorage.removeItem(key);
+  } catch (error) {
+    console.error(`Failed to remove localStorage item ${key}:`, error);
+  }
+}

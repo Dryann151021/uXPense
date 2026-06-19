@@ -16,6 +16,26 @@
   @include flex-start;
   gap: $spacing-lg;
   margin-bottom: $spacing-xl;
+
+  .user-avatar-outline {
+    width: 48px;
+    height: 48px;
+    border-radius: $border-radius-full;
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      linear-gradient(
+          135deg,
+          var(--color-accent-purple),
+          var(--color-primary)
+        )
+        border-box;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
 }
 
 .status-profile-info {

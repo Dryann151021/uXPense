@@ -105,7 +105,7 @@ export default function Header() {
             title="User Profile"
             aria-label="User profile"
           >
-            <img src="../../../public/placeholder-user.jpg" alt="users" />
+            <img src="/placeholder-user.jpg" alt="users" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
           </div>
         </div>
       </header>

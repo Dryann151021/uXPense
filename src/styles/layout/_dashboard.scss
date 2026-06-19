@@ -29,6 +29,6 @@
   gap: $spacing-xl;
 
   @include respond-to('lg') {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr;
   }
 }

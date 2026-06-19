@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from '../../hooks/useForm.jsx';
 
 const categories = [
@@ -11,7 +12,11 @@ const categories = [
   'Health',
 ];
 
-export default function BudgetForm() {
+export default function BudgetForm({ onSubmit }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
   const {
     form: formData,
     handleChange,
@@ -19,12 +24,45 @@ export default function BudgetForm() {
   } = useForm({
     category: '',
     limitAmount: '',
+    month: new Date().toISOString().slice(0, 7),
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Budget submitted:', formData);
-    resetForm({ category: '', limitAmount: '' });
+    setError('');
+    setMessage('');
+
+    const payload = {
+      category: formData.category,
+      limitAmount: Number(formData.limitAmount),
+      month: formData.month,
+    };
+
+    if (!onSubmit) {
+      console.log('Budget submitted:', payload);
+      resetForm({
+        category: '',
+        limitAmount: '',
+        month: new Date().toISOString().slice(0, 7),
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    const result = await onSubmit(payload);
+    setIsSubmitting(false);
+
+    if (!result.success) {
+      setError(result.error);
+      return;
+    }
+
+    setMessage('Budget berhasil ditambahkan.');
+    resetForm({
+      category: '',
+      limitAmount: '',
+      month: new Date().toISOString().slice(0, 7),
+    });
   };
 
   return (
@@ -67,13 +105,13 @@ export default function BudgetForm() {
             required
           />
         </div>
-
         <button
           type="submit"
           className="btn btn-primary"
           style={{ width: '100%' }}
+          disabled={isSubmitting}
         >
-          Tambah Budget
+          {isSubmitting ? 'Menyimpan...' : 'Tambah Budget'}
         </button>
       </form>
     </div>
