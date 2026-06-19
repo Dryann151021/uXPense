@@ -42,7 +42,6 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: $spacing-2xl;
-  align-items: center;
   padding: $spacing-2xl 0 $spacing-3xl;
 
   @include respond-to('lg') {
@@ -132,7 +131,7 @@
 
   img {
     width: 100%;
-    height: auto;
+    height: 20px;
     max-width: 480px;
     border-radius: $border-radius-xl;
   }
@@ -215,39 +214,6 @@
   font-size: $font-size-sm;
   line-height: $line-height-relaxed;
   color: var(--color-text-muted);
-}
-
-// ---- CTA ----------------------------------------------------
-.landing-cta {
-  padding: 0 0 $spacing-3xl;
-}
-
-.landing-cta-inner {
-  border-radius: $border-radius-xl;
-  background-color: var(--color-primary);
-  padding: $spacing-3xl $spacing-xl;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: $spacing-md;
-}
-
-.landing-cta-title {
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
-  color: var(--color-text-on-primary);
-  line-height: $line-height-tight;
-
-  @include respond-to('md') {
-    font-size: $font-size-3xl;
-  }
-}
-
-.landing-cta-subtitle {
-  font-size: $font-size-base;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 46ch;
 }
 
 .landing-cta-button {

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export default function AuthBrand() {
   return (
-    <Link to="/landing" className="auth-brand" aria-label="Cuan home">
+    <Link to="/" className="auth-brand" aria-label="Cuan home">
       <span className="auth-brand-mark" aria-hidden="true">
         <svg viewBox="0 0 32 32" fill="none">
           <rect width="32" height="32" rx="9" fill="url(#authLogoGrad)" />

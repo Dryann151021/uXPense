@@ -2,7 +2,7 @@
 @use '../abstracts/mixins' as *;
 
 .header {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -118,52 +118,67 @@
     }
   }
 
+  .theme-toggle {
+    position: relative;
+    @include flex-center;
+    @include btn-reset;
+    width: 40px;
+    height: 40px;
+    border-radius: $border-radius-full;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface-muted);
+    @include transition(all);
+
+    &:hover {
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .theme-toggle-sun {
+      display: none;
+    }
+    .theme-toggle-moon {
+      display: block;
+    }
+  }
+
+  [data-theme='dark'] .theme-toggle {
+    .theme-toggle-sun {
+      display: block;
+    }
+    .theme-toggle-moon {
+      display: none;
+    }
+  }
+
+  .logout-button {
+    @include btn-reset;
+    padding: 0 $spacing-sm;
+    height: 40px;
+    border-radius: $border-radius-full;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface-muted);
+    @include transition(all);
+
+    &:hover {
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+  }
+
   .header-right {
     @include flex-between;
     gap: $spacing-md;
 
     @include respond-to('md') {
       gap: $spacing-lg;
-    }
-
-    // Theme toggle button
-    .theme-toggle {
-      position: relative;
-      @include flex-center;
-      @include btn-reset;
-      width: 40px;
-      height: 40px;
-      border-radius: $border-radius-full;
-      color: var(--color-text);
-      border: 1px solid var(--color-border);
-      background-color: var(--color-surface-muted);
-      @include transition(all);
-
-      &:hover {
-        color: var(--color-primary);
-        border-color: var(--color-primary);
-      }
-
-      svg {
-        width: 20px;
-        height: 20px;
-      }
-
-      .theme-toggle-sun {
-        display: none;
-      }
-      .theme-toggle-moon {
-        display: block;
-      }
-    }
-
-    [data-theme='dark'] .theme-toggle {
-      .theme-toggle-sun {
-        display: block;
-      }
-      .theme-toggle-moon {
-        display: none;
-      }
     }
 
     .header-icon {
@@ -246,6 +261,45 @@
         border-width: 2px;
       }
     }
+  }
+}
+
+.theme-toggle {
+  position: relative;
+  @include flex-center;
+  @include btn-reset;
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius-full;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
+  @include transition(all);
+
+  &:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .theme-toggle-sun {
+    display: none;
+  }
+  .theme-toggle-moon {
+    display: block;
+  }
+}
+
+[data-theme='dark'] .theme-toggle {
+  .theme-toggle-sun {
+    display: block;
+  }
+  .theme-toggle-moon {
+    display: none;
   }
 }
 

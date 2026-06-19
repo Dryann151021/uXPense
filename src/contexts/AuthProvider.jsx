@@ -24,6 +24,7 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+
   const login = useCallback(async (username, password) => {
     setIsLoading(true);
     setError(null);
