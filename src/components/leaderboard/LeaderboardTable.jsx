@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { usersApi } from '../../api/users.js';
+import { useAuth } from '../../hooks/useAuth.jsx';
 
 function MedalIcon({ rank }) {
   const toneClass =
@@ -30,47 +32,70 @@ function StreakFlame() {
   );
 }
 
-const mockLeaderboard = [
-  { rank: 1, username: 'Alex Chen', level: 15, totalXP: 5250, streak: 12 },
-  { rank: 2, username: 'Sarah Johnson', level: 14, totalXP: 4800, streak: 10 },
-  { rank: 3, username: 'Mike Tanaka', level: 13, totalXP: 4200, streak: 8 },
-  { rank: 4, username: 'Emma Wilson', level: 12, totalXP: 3600, streak: 7 },
-  { rank: 5, username: 'John Doe', level: 1, totalXP: 50, streak: 3 },
-  { rank: 6, username: 'Lisa Anderson', level: 10, totalXP: 2800, streak: 5 },
-  { rank: 7, username: 'David Kim', level: 9, totalXP: 2400, streak: 4 },
-  { rank: 8, username: 'Jessica Brown', level: 8, totalXP: 1800, streak: 3 },
-  { rank: 9, username: 'Robert Martinez', level: 7, totalXP: 1400, streak: 2 },
-  { rank: 10, username: 'Maria Garcia', level: 6, totalXP: 1000, streak: 1 },
-];
-
 export default function LeaderboardTable() {
-  const [sortBy, setSortBy] = useState('rank');
+  const [activeTab, setActiveTab] = useState('xp'); // 'xp' or 'streak'
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user: currentUser } = useAuth();
 
-  const sortedData = [...mockLeaderboard].sort((a, b) => {
-    if (sortBy === 'rank') return a.rank - b.rank;
-    if (sortBy === 'level') return b.level - a.level;
-    if (sortBy === 'xp') return b.totalXP - a.totalXP;
-    if (sortBy === 'streak') return b.streak - a.streak;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setLoading(true);
+      try {
+        const response = await usersApi.getAll();
+        setUsers(response.users || []);
+      } catch (err) {
+        console.error('Failed to fetch leaderboard:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  const sortedData = [...users].sort((a, b) => {
+    if (activeTab === 'xp') {
+      return (b.user_xp || 0) - (a.user_xp || 0);
+    }
+    if (activeTab === 'streak') {
+      return (b.current_streak || 0) - (a.current_streak || 0);
+    }
     return 0;
   });
 
   return (
     <div className="card">
-      <div className="leaderboard-toolbar">
-        <label htmlFor="sort-select" className="leaderboard-toolbar-label">
-          Urutkan berdasarkan:
-        </label>
-        <select
-          id="sort-select"
-          className="form-select leaderboard-sort-select"
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
+      <div className="leaderboard-tabs" style={{ display: 'flex', gap: '1rem', padding: '1rem 1.5rem', borderBottom: '1px solid var(--color-border)' }}>
+        <button
+          className={`tab-btn ${activeTab === 'xp' ? 'active' : ''}`}
+          onClick={() => setActiveTab('xp')}
+          style={{
+            padding: '0.5rem 1rem',
+            border: 'none',
+            background: activeTab === 'xp' ? 'var(--color-primary)' : 'transparent',
+            color: activeTab === 'xp' ? 'white' : 'var(--color-text)',
+            borderRadius: 'var(--radius-md)',
+            cursor: 'pointer',
+            fontWeight: '600'
+          }}
         >
-          <option value="rank">Peringkat</option>
-          <option value="level">Level</option>
-          <option value="xp">Total XP</option>
-          <option value="streak">Streak</option>
-        </select>
+          Berdasarkan XP
+        </button>
+        <button
+          className={`tab-btn ${activeTab === 'streak' ? 'active' : ''}`}
+          onClick={() => setActiveTab('streak')}
+          style={{
+            padding: '0.5rem 1rem',
+            border: 'none',
+            background: activeTab === 'streak' ? 'var(--color-primary)' : 'transparent',
+            color: activeTab === 'streak' ? 'white' : 'var(--color-text)',
+            borderRadius: 'var(--radius-md)',
+            cursor: 'pointer',
+            fontWeight: '600'
+          }}
+        >
+          Berdasarkan Streak
+        </button>
       </div>
 
       <div className="table-scroll">
@@ -85,32 +110,37 @@ export default function LeaderboardTable() {
             </tr>
           </thead>
           <tbody>
-            {sortedData.map((user) => {
-              const isYou = user.username === 'John Doe';
+            {loading ? (
+              <tr>
+                <td colSpan="5" className="text-center" style={{ padding: '2rem' }}>Loading...</td>
+              </tr>
+            ) : sortedData.map((user, index) => {
+              const rank = index + 1;
+              const isYou = currentUser?.username === user.username;
               return (
-                <tr key={user.rank} className={isYou ? 'leaderboard-row-you' : ''}>
+                <tr key={user.id} className={isYou ? 'leaderboard-row-you' : ''}>
                   <td>
                     <span className="leaderboard-rank">
-                      {user.rank <= 3 && <MedalIcon rank={user.rank} />}#{user.rank}
+                      {rank <= 3 && <MedalIcon rank={rank} />}#{rank}
                     </span>
                   </td>
                   <td>
-                    <span className="leaderboard-username">{user.username}</span>
+                    <span className="leaderboard-username">{user.fullname || user.username}</span>
                     {isYou && <span className="leaderboard-you-tag">(You)</span>}
                   </td>
                   <td className="text-center">
-                    <span className="leaderboard-level-badge">{user.level}</span>
+                    <span className="leaderboard-level-badge">{user.current_level || 1}</span>
                   </td>
                   <td className="text-right">
-                    <strong>{user.totalXP.toLocaleString('id-ID')} XP</strong>
+                    <strong>{(user.user_xp || 0).toLocaleString('id-ID')} XP</strong>
                   </td>
                   <td className="text-center">
                     <span className="leaderboard-streak-icons">
-                      {[...Array(Math.min(user.streak, 5))].map((_, i) => (
+                      {[...Array(Math.min(user.current_streak || 0, 5))].map((_, i) => (
                         <StreakFlame key={i} />
                       ))}
                     </span>
-                    <div className="leaderboard-streak-days">{user.streak} hari</div>
+                    <div className="leaderboard-streak-days">{user.current_streak || 0} hari</div>
                   </td>
                 </tr>
               );
@@ -124,18 +154,18 @@ export default function LeaderboardTable() {
         <div className="leaderboard-stats-grid">
           <div>
             <div className="leaderboard-stat-label">Total Pengguna</div>
-            <div className="leaderboard-stat-value is-primary">{mockLeaderboard.length}</div>
+            <div className="leaderboard-stat-value is-primary">{users.length}</div>
           </div>
           <div>
             <div className="leaderboard-stat-label">Level Tertinggi</div>
             <div className="leaderboard-stat-value is-flame">
-              {Math.max(...mockLeaderboard.map((u) => u.level))}
+              {users.length > 0 ? Math.max(...users.map((u) => u.current_level || 1)) : 1}
             </div>
           </div>
           <div>
-            <div className="leaderboard-stat-label">Total XP</div>
+            <div className="leaderboard-stat-label">Total XP Semua</div>
             <div className="leaderboard-stat-value is-success">
-              {mockLeaderboard.reduce((sum, u) => sum + u.totalXP, 0).toLocaleString('id-ID')}
+              {users.reduce((sum, u) => sum + (u.user_xp || 0), 0).toLocaleString('id-ID')}
             </div>
           </div>
         </div>
