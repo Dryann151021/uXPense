@@ -15,4 +15,9 @@ export const usersApi = {
     const response = await client.get(`/users/${id}`);
     return response.data.data;
   },
+
+  getStreak: async (id) => {
+    const response = await client.get(`/users/${id}/streak`);
+    return response.data.data.streak;
+  },
 };

@@ -7,9 +7,16 @@ export function formatCurrency(value, locale = 'id-ID', currency = 'IDR') {
 }
 
 export function formatDate(isoDate) {
-  return new Intl.DateTimeFormat('id-ID', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
-  }).format(new Date(isoDate));
+  if (!isoDate) {
+    return '-';
+  }
+  try {
+    return new Intl.DateTimeFormat('id-ID', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    }).format(new Date(isoDate));
+  } catch {
+    return '-';
+  }
 }
