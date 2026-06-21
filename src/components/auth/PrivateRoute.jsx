@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth.jsx';
 import { StreakProvider } from '../../contexts/StreakProvider.jsx';
+import { LevelProvider } from '../../contexts/LevelProvider.jsx';
 
 export default function PrivateRoute({ redirectTo = '/login' }) {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -15,7 +16,9 @@ export default function PrivateRoute({ redirectTo = '/login' }) {
 
   return (
     <StreakProvider userId={user?.id}>
-      <Outlet />
+      <LevelProvider userId={user?.id}>
+        <Outlet />
+      </LevelProvider>
     </StreakProvider>
   );
 }

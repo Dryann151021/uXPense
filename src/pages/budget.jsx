@@ -55,9 +55,17 @@ export default function BudgetPage() {
   };
 
   const currentMonth = new Date().toISOString().slice(0, 7);
-  const totalBudget = budgets.reduce((sum, b) => sum + Number(b.limitAmount), 0);
-  const currentMonthExpenses = expenses.filter(e => e.date && e.date.startsWith(currentMonth));
-  const totalSpent = currentMonthExpenses.reduce((sum, e) => sum + Number(e.amount), 0);
+  const totalBudget = budgets.reduce(
+    (sum, b) => sum + Number(b.limitAmount),
+    0,
+  );
+  const currentMonthExpenses = expenses.filter(
+    (e) => e.date && e.date.startsWith(currentMonth),
+  );
+  const totalSpent = currentMonthExpenses.reduce(
+    (sum, e) => sum + Number(e.amount),
+    0,
+  );
   const sisaKuota = totalBudget - totalSpent;
 
   return (
@@ -66,7 +74,7 @@ export default function BudgetPage() {
       <main className="main-content">
         <div className="container">
           <h1>Budget Management</h1>
-          
+
           <div className="budget-summary-grid">
             <div className="card summary-card">
               <h3>Total Budget</h3>
@@ -83,7 +91,12 @@ export default function BudgetPage() {
               <BudgetForm onSubmit={handleAddBudget} />
             </div>
             <div>
-              <BudgetList budgets={budgets} expenses={expenses} loading={loading} error={error} />
+              <BudgetList
+                budgets={budgets}
+                expenses={expenses}
+                loading={loading}
+                error={error}
+              />
             </div>
           </div>
         </div>

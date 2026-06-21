@@ -1,11 +1,15 @@
 'use client';
 
 import { useStreakContext } from '../../hooks/useStreakContext.jsx';
+import { useLevelContext } from '../../hooks/useLevelContext.jsx';
+import { useAuth } from '../../hooks/useAuth.jsx';
 
 export default function UserStatusCard() {
-  const { streak, loading } = useStreakContext();
+  const { streak, loading: streakLoading } = useStreakContext();
+  const { level, loading: levelLoading } = useLevelContext();
+  const { user } = useAuth();
 
-  const xpPercentage = 75;
+  const xpPercentage = level?.progressPercentage || 0;
 
   return (
     <div className="user-status-card">
@@ -25,11 +29,11 @@ export default function UserStatusCard() {
           />
         </div>
         <div className="status-profile-info">
-          <div className="user-name">Users</div>
+          <div className="user-name">{user?.username || 'Users'}</div>
           <div className="user-level">Status Level User</div>
           <div className="status-level-row">
-            <span className="status-level-label">Level 1</span>
-            <div className="level-bar">
+            <span className="status-level-label">Level {level?.current || 1}</span>
+            <div className="level-bar" title={`${level?.currentXp || 0} / ${level?.xpRequiredForNext || 100} XP`}>
               <div
                 className="level-bar-fill"
                 style={{ width: `${xpPercentage}%` }}
@@ -58,7 +62,7 @@ export default function UserStatusCard() {
             className="status-stat-value"
             title={`Current: ${streak.current} days`}
           >
-            {loading ? '...' : streak.current}
+            {streakLoading ? '...' : streak.current}
           </span>
         </div>
         <div className="status-stat">
@@ -75,7 +79,7 @@ export default function UserStatusCard() {
             className="status-stat-value"
             title={`Longest: ${streak.longest} days`}
           >
-            {loading ? '...' : `${streak.longest}d`}
+            {streakLoading ? '...' : `${streak.longest}d`}
           </span>
         </div>
         <div className="status-stat">
