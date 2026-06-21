@@ -20,4 +20,9 @@ export const usersApi = {
     const response = await client.get(`/users/${id}/streak`);
     return response.data.data.streak;
   },
+
+  getLevel: async (id) => {
+    const response = await client.get(`/users/${id}/level`);
+    return response.data.data;
+  },
 };

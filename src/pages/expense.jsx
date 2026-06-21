@@ -6,6 +6,7 @@ import ExpenseForm from '../components/transaction/ExpenseForm.jsx';
 import TransactionList from '../components/transaction/TransactionList.jsx';
 import { expenseApi } from '../api/expenses.js';
 import { useStreakContext } from '../hooks/useStreakContext.jsx';
+import { useLevelContext } from '../hooks/useLevelContext.jsx';
 import FAB from '../components/layout/FAB.jsx';
 
 export default function ExpensePage() {
@@ -13,6 +14,7 @@ export default function ExpensePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { refetch: refetchStreak } = useStreakContext();
+  const { refetch: refetchLevel } = useLevelContext();
 
   const loadExpenses = useCallback(async (isInitial = false) => {
     if (!isInitial) {
@@ -41,8 +43,8 @@ export default function ExpensePage() {
     try {
       await expenseApi.createExpense(payload);
       await loadExpenses();
-      // Refetch streak after successful expense creation
-      await refetchStreak();
+      // Refetch streak and level after successful expense creation
+      await Promise.all([refetchStreak(), refetchLevel()]);
       return { success: true };
     } catch (err) {
       const message =
