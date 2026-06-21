@@ -6,7 +6,7 @@ import ExpenseForm from '../ExpenseForm.jsx';
 describe('ExpenseForm', () => {
   it('should submit payload with number amount and selected date', async () => {
     const onSubmit = vi.fn().mockResolvedValue({ success: true });
-    render(<ExpenseForm onSubmit={onSubmit} />);
+    render(<ExpenseForm onSubmit={onSubmit} budgets={[{ category: 'Food' }]} />);
 
     fireEvent.change(screen.getByLabelText(/kategori/i), {
       target: { value: 'Food' },
@@ -40,7 +40,7 @@ describe('ExpenseForm', () => {
     const onSubmit = vi
       .fn()
       .mockResolvedValue({ success: false, error: 'Gagal server' });
-    render(<ExpenseForm onSubmit={onSubmit} />);
+    render(<ExpenseForm onSubmit={onSubmit} budgets={[{ category: 'Food' }]} />);
 
     await userEvent.selectOptions(screen.getByLabelText(/kategori/i), 'Food');
     await userEvent.type(screen.getByLabelText(/jumlah/i), '50000');

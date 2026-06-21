@@ -18,6 +18,41 @@ describe('Expense flow', () => {
       },
     }).as('loginRequest');
 
+    cy.intercept('GET', '**/budgets', {
+      statusCode: 200,
+      body: {
+        data: {
+          budgets: [
+            { category: 'Food', limitAmount: 100000, month: '2024-06' }
+          ],
+        },
+      },
+    }).as('getBudgets');
+
+    cy.intercept('GET', '**/streak', {
+      statusCode: 200,
+      body: {
+        data: {
+          streak: { current: 1, longest: 5 },
+        },
+      },
+    }).as('getStreak');
+
+    cy.intercept('GET', '**/level', {
+      statusCode: 200,
+      body: {
+        data: {
+          level: {
+            current: 1,
+            currentXp: 50,
+            xpRequiredForNext: 100,
+            progressPercentage: 50,
+            daily: { count: 0, remaining: 3 },
+          },
+        },
+      },
+    }).as('getLevel');
+
     let expenseRequestCount = 0;
 
     cy.intercept('GET', '**/expenses', (req) => {
@@ -66,6 +101,7 @@ describe('Expense flow', () => {
     cy.contains('nav a', 'Expense').click();
     cy.url().should('include', '/expense');
     cy.wait('@getExpenses');
+    cy.wait('@getBudgets');
 
     cy.get('#category').select('Food');
     cy.get('#amount').type('75000');
