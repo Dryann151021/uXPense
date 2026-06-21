@@ -83,7 +83,7 @@ export default function TransactionList({ transactions = [], loading, error }) {
                 {transaction.description}
               </div>
               <div className="transaction-item-date">
-                {formatDate(transaction.date)}
+                {formatDate(transaction.created_at)}
               </div>
             </div>
           ))}

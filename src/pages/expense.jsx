@@ -5,12 +5,14 @@ import Header from '../components/layout/Header.jsx';
 import ExpenseForm from '../components/transaction/ExpenseForm.jsx';
 import TransactionList from '../components/transaction/TransactionList.jsx';
 import { expenseApi } from '../api/expenses.js';
+import { useStreakContext } from '../hooks/useStreakContext.jsx';
 import FAB from '../components/layout/FAB.jsx';
 
 export default function ExpensePage() {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { refetch: refetchStreak } = useStreakContext();
 
   const loadExpenses = useCallback(async (isInitial = false) => {
     if (!isInitial) {
@@ -39,6 +41,8 @@ export default function ExpensePage() {
     try {
       await expenseApi.createExpense(payload);
       await loadExpenses();
+      // Refetch streak after successful expense creation
+      await refetchStreak();
       return { success: true };
     } catch (err) {
       const message =
