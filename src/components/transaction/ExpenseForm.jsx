@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from '../../hooks/useForm.jsx';
-
+import { formatRupiahInput, parseRupiahInput } from '../../utils/format.js';
 
 export default function ExpenseForm({ onSubmit, budgets = [] }) {
   // Extract unique categories from budgets
@@ -22,6 +22,15 @@ export default function ExpenseForm({ onSubmit, budgets = [] }) {
     date: new Date().toISOString().split('T')[0],
   });
 
+  const handleAmountChange = (event) => {
+    handleChange({
+      target: {
+        name: 'amount',
+        value: formatRupiahInput(event.target.value),
+      },
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -29,7 +38,7 @@ export default function ExpenseForm({ onSubmit, budgets = [] }) {
 
     const payload = {
       category: formData.category,
-      amount: Number(formData.amount),
+      amount: parseRupiahInput(formData.amount),
       description: formData.description,
       date: formData.date,
     };
@@ -59,7 +68,7 @@ export default function ExpenseForm({ onSubmit, budgets = [] }) {
   };
 
   return (
-    <div className="card">
+    <div className="card expense-form-card">
       <h3>Catat Pengeluaran</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -87,16 +96,17 @@ export default function ExpenseForm({ onSubmit, budgets = [] }) {
 
         <div className="form-group">
           <label htmlFor="amount" className="form-label">
-            Jumlah (Rp)
+              Jumlah
           </label>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
             id="amount"
             name="amount"
             className="form-input"
-            placeholder="e.g., 50000"
+            placeholder="Rp.50.000"
             value={formData.amount}
-            onChange={handleChange}
+            onChange={handleAmountChange}
             required
           />
         </div>

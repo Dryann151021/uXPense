@@ -25,4 +25,11 @@ export const budgetApi = {
     const response = await client.delete(`/budgets/${id}`);
     return response.data.data;
   },
+
+  deleteCategory: async (category) => {
+    const response = await client.delete('/budgets/categories', {
+      params: { category },
+    });
+    return response.data.data;
+  },
 };

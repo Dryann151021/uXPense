@@ -4,9 +4,9 @@ import LandingFeatures from '../components/landing/LandingFeatures.jsx';
 import LandingFooter from '../components/landing/LandingFooter.jsx';
 
 export const metadata = {
-  title: 'Cuan - Catat Pengeluaran dengan Gamifikasi',
+  title: 'uXPense - Catat Pengeluaran dengan Gamifikasi',
   description:
-    'Cuan mengubah pencatatan pengeluaran jadi permainan. Kumpulkan XP, jaga streak, dan saingi temanmu di leaderboard.',
+    'uXPense mengubah pencatatan pengeluaran jadi permainan. Kumpulkan XP, jaga streak, dan saingi temanmu di leaderboard.',
 };
 
 export default function LandingPage() {

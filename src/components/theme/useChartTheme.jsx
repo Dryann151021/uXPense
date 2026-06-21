@@ -6,22 +6,22 @@ import { useTheme } from '../../hooks/useTheme.jsx';
 // so we map the active theme to a palette used across all charts.
 const PALETTES = {
   light: {
-    grid: '#eceef6',
-    axis: '#6b7194',
-    axisLine: '#e7e9f2',
-    cursor: '#c7cbe0',
-    tooltipBg: '#ffffff',
-    tooltipBorder: '#e7e9f2',
-    tooltipText: '#1e2235',
+    grid: '#d8ebe0',
+    axis: '#4d7060',
+    axisLine: '#ccddd2',
+    cursor: '#b4ccbc',
+    tooltipBg: '#f6faf7',
+    tooltipBorder: '#ccddd2',
+    tooltipText: '#0e1f13',
   },
   dark: {
-    grid: '#262a45',
-    axis: '#9499b5',
-    axisLine: '#2c3150',
-    cursor: '#3a4066',
-    tooltipBg: '#1f2338',
-    tooltipBorder: '#2c3150',
-    tooltipText: '#e8eaf6',
+    grid: '#2e2e33',
+    axis: '#a1a1aa',
+    axisLine: '#2e2e33',
+    cursor: '#44444c',
+    tooltipBg: '#18181b',
+    tooltipBorder: '#2e2e33',
+    tooltipText: '#fafafa',
   },
 };
 
@@ -29,9 +29,9 @@ const PALETTES = {
 export const CHART_BRAND = {
   spend: '#f43f5e',
   spendLight: '#fb7185',
-  budget: '#6366f1',
-  budgetLight: '#818cf8',
-  dot: '#22d3ee',
+  budget: '#0a2512', // Dark green for light mode
+  budgetLight: '#d4ff00', // Neon lime for dark mode
+  dot: '#d4ff00',
 };
 
 export function useChartTheme() {

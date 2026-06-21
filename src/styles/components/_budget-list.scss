@@ -29,20 +29,28 @@
 }
 
 .budget-progress {
+  position: relative;
   width: 100%;
-  height: 16px;
-  background-color: var(--color-danger);
+  height: 14px;
+  background: linear-gradient(90deg, #ef4444 0%, #f87171 100%);
   border-radius: $border-radius-full;
   overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
-.budget-progress-fill {
+// The green "remaining HP" overlay — anchored to left, shrinks from right
+.budget-hp-remaining {
+  position: absolute;
+  left: 0;
+  top: 0;
   height: 100%;
+  background: linear-gradient(90deg, #16a34a 0%, #4ade80 100%);
   border-radius: $border-radius-full;
-  @include transition(width);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
-  &.is-hp-bar {
-    background-color: var(--color-success);
+  // When danger (>= 80%), pulse the remaining green slightly
+  &.is-danger {
+    background: linear-gradient(90deg, #ca8a04 0%, #fbbf24 100%);
   }
 }
 
@@ -57,17 +65,141 @@
   }
 
   .summary-card {
-    background-color: var(--color-surface-muted);
+    position: relative;
+    overflow: hidden;
+    min-height: 160px;
+    border-color: var(--color-border-strong);
+    background:
+      linear-gradient(135deg, var(--color-primary-soft) 0%, transparent 42%),
+      var(--color-surface-muted);
+    box-shadow:
+      var(--shadow-card),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 0 58%, rgba(255, 255, 255, 0.06) 58% 59%, transparent 59%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 42%);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: $spacing-xl;
+      right: $spacing-xl;
+      bottom: 0;
+      height: 3px;
+      border-radius: $border-radius-full $border-radius-full 0 0;
+      background: var(--summary-accent);
+      opacity: 0.9;
+    }
+
+    > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    &--budget {
+      --summary-accent: linear-gradient(90deg, var(--color-primary) 0%, var(--color-success) 100%);
+      --summary-icon-bg: var(--color-primary-soft);
+      --summary-icon-border: var(--color-border-strong);
+      --summary-shadow: rgba(34, 197, 94, 0.18);
+      background:
+        linear-gradient(135deg, var(--color-primary-soft) 0%, transparent 76%),
+        var(--color-surface-muted);
+      box-shadow:
+        0 16px 36px -24px var(--summary-shadow),
+        var(--shadow-card),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    &--sisa {
+      --summary-accent: linear-gradient(90deg, var(--color-success) 0%, var(--color-primary) 100%);
+      --summary-icon-bg: var(--color-success-soft);
+      --summary-icon-border: var(--color-border-strong);
+      --summary-shadow: rgba(34, 197, 94, 0.16);
+      background:
+        linear-gradient(135deg, var(--color-success-soft) 0%, transparent 78%),
+        var(--color-surface-muted);
+      box-shadow:
+        0 16px 36px -24px var(--summary-shadow),
+        var(--shadow-card),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .summary-card-header {
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+      margin-bottom: $spacing-md;
+    }
+
+    .summary-card-icon {
+      @include flex-center;
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      border-radius: $border-radius-md;
+      color: var(--color-text);
+      border: 1px solid var(--summary-icon-border);
+      background:
+        var(--summary-icon-bg),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent);
+      box-shadow: 0 10px 24px -16px var(--summary-shadow);
+
+      svg {
+        width: 22px;
+        height: 22px;
+        max-width: none;
+      }
+    }
+
+    .summary-card-label,
+    .summary-card-sub {
+      font-size: $font-size-sm;
+      color: var(--color-text-muted);
+    }
+
     h3 {
       font-size: $font-size-sm;
       color: var(--color-text-muted);
       margin-bottom: $spacing-sm;
     }
+
     .summary-amount {
-      font-size: $font-size-xl;
+      font-size: $font-size-2xl;
       font-weight: $font-weight-bold;
       color: var(--color-text);
+      margin-bottom: $spacing-sm;
+    }
+
+    .summary-mini-bar {
+      width: 100%;
+      height: 8px;
+      margin-top: $spacing-md;
+      overflow: hidden;
+      border-radius: $border-radius-full;
+      background-color: rgba(0, 0, 0, 0.18);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.22);
+    }
+
+    .summary-mini-bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--summary-accent);
+      transition: width 0.4s ease;
+    }
+
+    &.is-warning .summary-mini-bar-fill {
+      background: linear-gradient(90deg, #ca8a04 0%, #fbbf24 100%);
+    }
+
+    &.is-over .summary-mini-bar-fill {
+      background: linear-gradient(90deg, #dc2626 0%, #f87171 100%);
     }
   }
 }
-

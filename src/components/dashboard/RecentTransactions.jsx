@@ -1,7 +1,11 @@
 'use client';
 
 import { Link } from 'react-router-dom';
-import { formatCurrency, formatDate } from '../../utils/format.js';
+import {
+  formatCurrency,
+  formatDate,
+  getExpenseDate,
+} from '../../utils/format.js';
 
 export default function RecentTransactions({ expenses = [] }) {
   // Sort by created_at descending and get the top 5
@@ -50,7 +54,7 @@ export default function RecentTransactions({ expenses = [] }) {
                 {transaction.description}
               </div>
               <div className="transaction-item-date">
-                {formatDate(transaction.created_at)}
+                {formatDate(getExpenseDate(transaction))}
               </div>
             </div>
           ))}

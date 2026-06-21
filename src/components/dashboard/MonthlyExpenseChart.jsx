@@ -12,11 +12,15 @@ import {
 import { useChartTheme, CHART_BRAND } from '../theme/useChartTheme.jsx';
 import { useLevelContext } from '../../hooks/useLevelContext.jsx';
 
-export default function MonthlyExpenseChart({ data = [], weeklyCount = 0, loading = false }) {
+export default function MonthlyExpenseChart({
+  data = [],
+  weeklyCount = 0,
+  loading = false,
+}) {
   const chart = useChartTheme();
   const { level } = useLevelContext();
 
-  const expensesCountToday = level?.daily?.expensesCount || 0;
+  const expensesCountToday = level.daily.expensesCount;
   const maxExpensesToday = 3; // Based on XP system
   const progress = Math.min((expensesCountToday / maxExpensesToday) * 100, 100);
 
@@ -43,7 +47,14 @@ export default function MonthlyExpenseChart({ data = [], weeklyCount = 0, loadin
       </div>
 
       {loading ? (
-        <div style={{ height: 140, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div
+          style={{
+            height: 140,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           Loading...
         </div>
       ) : (
@@ -101,12 +112,19 @@ export default function MonthlyExpenseChart({ data = [], weeklyCount = 0, loadin
       )}
 
       <div className="quest-section">
-        <div className="quest-label">Catat {maxExpensesToday} Pengeluaran Hari Ini (XP harian)</div>
+        <div className="quest-label">
+          Catat {maxExpensesToday} Pengeluaran Hari Ini (XP harian)
+        </div>
         <div className="quest-bar-wrapper">
           <div className="quest-bar">
-            <div className="quest-bar-fill" style={{ width: `${progress}%` }}></div>
+            <div
+              className="quest-bar-fill"
+              style={{ width: `${progress}%` }}
+            ></div>
           </div>
-          <span className="quest-bar-text">{expensesCountToday}/{maxExpensesToday}</span>
+          <span className="quest-bar-text">
+            {expensesCountToday}/{maxExpensesToday}
+          </span>
         </div>
       </div>
     </div>

@@ -11,6 +11,15 @@ import MonthlyExpenseChart from '../components/dashboard/MonthlyExpenseChart.jsx
 import FAB from '../components/layout/FAB.jsx';
 import { expenseApi } from '../api/expenses.js';
 import { budgetApi } from '../api/budgets.js';
+import {
+  getBudgetAmount,
+  getBudgetMonth,
+  getExpenseAmount,
+  getExpenseMonth,
+  getExpenseRecordedDate,
+  getLocalDateKey,
+  getStartOfWeek,
+} from '../utils/format.js';
 
 export default function Home() {
   const [expenses, setExpenses] = useState([]);
@@ -49,18 +58,13 @@ export default function Home() {
 
     const monthlyExpenses = expenses
       .filter((e) => {
-        if (!e.created_at) return false;
-        const d = new Date(e.created_at);
-        const localMonthStr = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
-          .toISOString()
-          .slice(0, 7);
-        return localMonthStr === monthPrefix;
+        return getExpenseMonth(e) === monthPrefix;
       })
-      .reduce((sum, e) => sum + Number(e.amount || 0), 0);
+      .reduce((sum, e) => sum + getExpenseAmount(e), 0);
 
     const monthlyBudget = budgets
-      .filter((b) => b.month === monthPrefix)
-      .reduce((sum, b) => sum + Number(b.limitAmount || 0), 0);
+      .filter((b) => getBudgetMonth(b) === monthPrefix)
+      .reduce((sum, b) => sum + getBudgetAmount(b), 0);
 
     return {
       name: month,
@@ -72,23 +76,13 @@ export default function Home() {
   // Aggregate weekly data for MonthlyExpenseChart
   const getDayName = (date) =>
     date.toLocaleString('en-US', { weekday: 'short' });
-  const today = new Date();
-  const currentDayOfWeek = today.getDay();
-  const diffToMonday =
-    today.getDate() - currentDayOfWeek + (currentDayOfWeek === 0 ? -6 : 1);
-  const startOfWeek = new Date(today.setDate(diffToMonday));
-  startOfWeek.setHours(0, 0, 0, 0);
+  const startOfWeek = getStartOfWeek();
 
   const weeklyDataMap = {};
   for (let i = 0; i < 7; i++) {
     const day = new Date(startOfWeek);
     day.setDate(startOfWeek.getDate() + i);
-    // Correctly format day locally to YYYY-MM-DD
-    const localDateStr = new Date(
-      day.getTime() - day.getTimezoneOffset() * 60000,
-    )
-      .toISOString()
-      .split('T')[0];
+    const localDateStr = getLocalDateKey(day);
     weeklyDataMap[localDateStr] = {
       name: getDayName(day),
       Pengeluaran: 0,
@@ -97,12 +91,10 @@ export default function Home() {
 
   let weeklyTotalCount = 0;
   expenses.forEach((e) => {
-    if (!e.created_at) return;
-    const d = new Date(e.created_at);
-    const dateStr = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().split('T')[0];
+    const dateStr = getLocalDateKey(getExpenseRecordedDate(e));
 
     if (dateStr && weeklyDataMap[dateStr]) {
-      weeklyDataMap[dateStr].Pengeluaran += Number(e.amount || 0);
+      weeklyDataMap[dateStr].Pengeluaran += getExpenseAmount(e);
       weeklyTotalCount += 1;
     }
   });

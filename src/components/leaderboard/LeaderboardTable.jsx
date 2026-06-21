@@ -65,34 +65,16 @@ export default function LeaderboardTable() {
 
   return (
     <div className="card">
-      <div className="leaderboard-tabs" style={{ display: 'flex', gap: '1rem', padding: '1rem 1.5rem', borderBottom: '1px solid var(--color-border)' }}>
+      <div className="leaderboard-tabs">
         <button
           className={`tab-btn ${activeTab === 'xp' ? 'active' : ''}`}
           onClick={() => setActiveTab('xp')}
-          style={{
-            padding: '0.5rem 1rem',
-            border: 'none',
-            background: activeTab === 'xp' ? 'var(--color-primary)' : 'transparent',
-            color: activeTab === 'xp' ? 'white' : 'var(--color-text)',
-            borderRadius: 'var(--radius-md)',
-            cursor: 'pointer',
-            fontWeight: '600'
-          }}
         >
           Berdasarkan XP
         </button>
         <button
           className={`tab-btn ${activeTab === 'streak' ? 'active' : ''}`}
           onClick={() => setActiveTab('streak')}
-          style={{
-            padding: '0.5rem 1rem',
-            border: 'none',
-            background: activeTab === 'streak' ? 'var(--color-primary)' : 'transparent',
-            color: activeTab === 'streak' ? 'white' : 'var(--color-text)',
-            borderRadius: 'var(--radius-md)',
-            cursor: 'pointer',
-            fontWeight: '600'
-          }}
         >
           Berdasarkan Streak
         </button>
