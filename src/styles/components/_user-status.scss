@@ -23,7 +23,7 @@
     border-radius: $border-radius-full;
     background:
       linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-      linear-gradient(135deg, var(--color-accent-purple), var(--color-primary))
+      linear-gradient(135deg, var(--color-accent-neon), var(--color-primary))
         border-box;
     border: 2px solid transparent;
     flex-shrink: 0;
@@ -132,7 +132,7 @@
     color: var(--color-warning);
   }
   &.dark {
-    color: var(--color-accent-purple);
+    color: var(--color-accent-neon);
   }
 }
 

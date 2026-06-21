@@ -1,6 +1,91 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
+.expense-page {
+  h1 {
+    margin-bottom: $spacing-xs;
+  }
+}
+
+.expense-page-header {
+  @include flex-between;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+
+  p {
+    color: var(--color-text-muted);
+  }
+}
+
+.expense-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+
+  @include respond-to('md') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.expense-summary-card {
+  position: relative;
+  overflow: hidden;
+  padding: $spacing-lg;
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius-lg;
+  background:
+    linear-gradient(135deg, var(--color-primary-soft) 0%, transparent 70%),
+    var(--color-surface-muted);
+  box-shadow: var(--shadow-card);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: $spacing-lg;
+    right: $spacing-lg;
+    bottom: 0;
+    height: 3px;
+    border-radius: $border-radius-full $border-radius-full 0 0;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-success));
+  }
+
+  strong {
+    display: block;
+    margin: $spacing-xs 0;
+    font-size: $font-size-2xl;
+    color: var(--color-text);
+  }
+
+  span:last-child {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+  }
+}
+
+.expense-summary-label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.expense-layout {
+  align-items: start;
+}
+
+.expense-form-card,
+.expense-list-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 42%),
+    var(--color-surface);
+}
+
+.expense-form-card {
+  position: sticky;
+  top: calc($header-height + $spacing-xl);
+}
+
 .transaction-summary {
   padding: $spacing-md;
   background-color: var(--color-surface-muted);
@@ -32,10 +117,12 @@
   border-radius: $border-radius-md;
   background-color: var(--color-surface-muted);
   border-left: 4px solid var(--color-danger);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
 }
 
 .transaction-item-head {
   @include flex-between;
+  gap: $spacing-md;
   margin-bottom: $spacing-xs;
 }
 
@@ -45,6 +132,7 @@
 }
 
 .transaction-item-amount {
+  flex-shrink: 0;
   font-weight: $font-weight-bold;
   color: var(--color-danger);
 }
@@ -53,6 +141,7 @@
   font-size: $font-size-xs;
   color: var(--color-text-muted);
   margin-bottom: $spacing-xs;
+  overflow-wrap: anywhere;
 }
 
 .transaction-item-date {
@@ -64,4 +153,18 @@
   padding: $spacing-xl;
   text-align: center;
   color: var(--color-text-subtle);
+}
+
+.expense-list-toolbar {
+  margin-bottom: $spacing-md;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: $breakpoint-lg) {
+  .expense-form-card {
+    position: static;
+  }
 }

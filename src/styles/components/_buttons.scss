@@ -54,6 +54,31 @@
   }
 }
 
+.btn-danger {
+  background-color: var(--color-danger-soft);
+  color: var(--color-danger);
+  border: 1px solid color-mix(in srgb, var(--color-danger) 42%, transparent);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-danger);
+    color: #fff;
+  }
+}
+
+.btn-danger-solid {
+  background-color: var(--color-danger);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    filter: brightness(0.94);
+  }
+}
+
+.btn-compact {
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-xs;
+}
+
 .fab-button,
 .fab-link {
   position: fixed;
@@ -63,7 +88,7 @@
   height: 56px;
   border-radius: $border-radius-full;
   background-color: var(--color-primary);
-  color: #fff;
+  color: var(--color-text-on-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,6 +101,7 @@
   &:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
     background-color: var(--color-primary-hover);
+    color: var(--color-text-on-primary);
   }
 
   .fab-icon {

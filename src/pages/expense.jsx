@@ -10,6 +10,7 @@ import { budgetApi } from '../api/budgets.js';
 import { useStreakContext } from '../hooks/useStreakContext.jsx';
 import { useLevelContext } from '../hooks/useLevelContext.jsx';
 import FAB from '../components/layout/FAB.jsx';
+import { formatCurrency, getExpenseMonth } from '../utils/format.js';
 
 export default function ExpensePage() {
   const [expenses, setExpenses] = useState([]);
@@ -73,13 +74,72 @@ export default function ExpensePage() {
     }
   };
 
+  const handleUpdateExpense = async (id, payload) => {
+    try {
+      await expenseApi.editExpense(id, payload);
+      await loadExpenses();
+      return { success: true };
+    } catch (err) {
+      const message =
+        err.response?.data?.message || 'Gagal memperbarui pengeluaran.';
+      return { success: false, error: message };
+    }
+  };
+
+  const handleDeleteExpense = async (id) => {
+    try {
+      await expenseApi.deleteExpense(id);
+      await loadExpenses();
+      await Promise.all([refetchStreak(), refetchLevel()]);
+      return { success: true };
+    } catch (err) {
+      const message =
+        err.response?.data?.message || 'Gagal menghapus pengeluaran.';
+      return { success: false, error: message };
+    }
+  };
+
+  const currentMonth = new Date().toISOString().slice(0, 7);
+  const currentMonthExpenses = expenses.filter(
+    (expense) => getExpenseMonth(expense) === currentMonth,
+  );
+  const monthlyTotal = currentMonthExpenses.reduce(
+    (sum, expense) => sum + Number(expense.amount || 0),
+    0,
+  );
+  const activeCategories = new Set(expenses.map((expense) => expense.category));
+
   return (
     <>
       <Header />
       <main className="main-content">
-        <div className="container">
-          <h1>Expense Tracking</h1>
-          <div className="grid-2-cols">
+        <div className="container expense-page">
+          <div className="expense-page-header">
+            <div>
+              <h1>Expense Tracking</h1>
+              <p>Catat, koreksi, dan pantau pengeluaran harianmu.</p>
+            </div>
+          </div>
+
+          <div className="expense-summary-grid">
+            <div className="expense-summary-card">
+              <span className="expense-summary-label">Bulan Ini</span>
+              <strong>{formatCurrency(monthlyTotal)}</strong>
+              <span>{currentMonthExpenses.length} transaksi</span>
+            </div>
+            <div className="expense-summary-card">
+              <span className="expense-summary-label">Kategori Aktif</span>
+              <strong>{activeCategories.size}</strong>
+              <span>kategori tercatat</span>
+            </div>
+            <div className="expense-summary-card">
+              <span className="expense-summary-label">Total Catatan</span>
+              <strong>{expenses.length}</strong>
+              <span>pengeluaran tersimpan</span>
+            </div>
+          </div>
+
+          <div className="grid-2-cols expense-layout">
             <div>
               <ExpenseForm onSubmit={handleAddExpense} budgets={budgets} />
             </div>
@@ -87,8 +147,11 @@ export default function ExpensePage() {
               <TransactionList
                 type="expense"
                 transactions={expenses}
+                budgets={budgets}
                 loading={loading}
                 error={error}
+                onUpdate={handleUpdateExpense}
+                onDelete={handleDeleteExpense}
               />
             </div>
           </div>

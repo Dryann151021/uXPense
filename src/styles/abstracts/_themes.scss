@@ -1,101 +1,103 @@
 :root,
 [data-theme='light'] {
-  // Brand
-  --color-primary: #6366f1;
-  --color-primary-hover: #4f46e5;
-  --color-primary-soft: #eef0ff;
+  // Brand — deep green primary, neon lime as accent
+  --color-primary: #1a4a28;
+  --color-primary-hover: #0f3019;
+  --color-primary-soft: #dff2e6;
   --color-accent-purple: #8b5cf6;
   --color-accent-flame: #fb6f3d;
   --color-accent-cyan: #22d3ee;
+  --color-accent-neon: #a8d400;
 
   // Status
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-danger: #f43f5e;
-  --color-success-soft: #e7f8ee;
+  --color-success-soft: #dcf5e7;
   --color-warning-soft: #fef3e2;
   --color-danger-soft: #fde8ec;
 
-  // Surfaces
-  --color-canvas: #f3f4fb;
-  --color-surface: #ffffff;
-  --color-surface-muted: #f6f7fb;
+  // Surfaces — subtle sage tint, not pure white
+  --color-canvas: #eef5f0;
+  --color-surface: #f6faf7;
+  --color-surface-muted: #e4ede7;
   --color-surface-elevated: #ffffff;
-  --color-header-bg: rgba(255, 255, 255, 0.85);
+  --color-header-bg: rgba(246, 250, 247, 0.9);
 
-  // Borders
-  --color-border: #e7e9f2;
-  --color-border-button: #9ea0ac;
-  --color-border-strong: #d6d9e8;
+  // Borders — green-tinted
+  --color-border: #ccddd2;
+  --color-border-button: #9dbdab;
+  --color-border-strong: #b4ccbc;
 
   // Text
-  --color-text: #1e2235;
-  --color-text-muted: #6b7194;
-  --color-text-subtle: #9499b5;
+  --color-text: #0e1f13;
+  --color-text-muted: #4d7060;
+  --color-text-subtle: #7a9e8a;
   --color-text-on-primary: #ffffff;
 
   // Chart helpers
-  --color-grid: #eceef6;
+  --color-grid: #d8ebe0;
   --color-tooltip-bg: #ffffff;
-  --color-tooltip-border: #e7e9f2;
+  --color-tooltip-border: #ccddd2;
 
   // Shadows
-  --shadow-sm: 0 1px 2px 0 rgba(30, 34, 53, 0.06);
-  --shadow-md: 0 4px 16px -4px rgba(30, 34, 53, 0.1);
-  --shadow-lg: 0 12px 32px -8px rgba(30, 34, 53, 0.12);
+  --shadow-sm: 0 1px 2px 0 rgba(14, 31, 19, 0.06);
+  --shadow-md: 0 4px 16px -4px rgba(14, 31, 19, 0.1);
+  --shadow-lg: 0 12px 32px -8px rgba(14, 31, 19, 0.12);
   --shadow-card:
-    0 2px 8px -2px rgba(30, 34, 53, 0.06),
-    0 8px 24px -10px rgba(30, 34, 53, 0.1);
+    0 2px 8px -2px rgba(14, 31, 19, 0.05),
+    0 8px 24px -10px rgba(14, 31, 19, 0.1);
 
   color-scheme: light;
 }
 
 [data-theme='dark'] {
-  // Brand (slightly brightened for contrast on dark surfaces)
-  --color-primary: #818cf8;
-  --color-primary-hover: #a5b0ff;
-  --color-primary-soft: #262a45;
+  // Brand — neon lime primary, charcoal-gray surfaces
+  --color-primary: #d4ff00;
+  --color-primary-hover: #b8e600;
+  --color-primary-soft: #222e1a;
   --color-accent-purple: #a78bfa;
   --color-accent-flame: #fb7c4d;
   --color-accent-cyan: #2dd4ee;
+  --color-accent-neon: #d4ff00;
 
   // Status
   --color-success: #4ade80;
   --color-warning: #fbbf24;
   --color-danger: #fb7185;
-  --color-success-soft: #15331f;
-  --color-warning-soft: #3a2e12;
-  --color-danger-soft: #3a1820;
+  --color-success-soft: #12281a;
+  --color-warning-soft: #2e2412;
+  --color-danger-soft: #2e1218;
 
-  // Surfaces
-  --color-canvas: #0d1020;
-  --color-surface: #171a2e;
-  --color-surface-muted: #1f2338;
-  --color-surface-elevated: #1c2036;
-  --color-header-bg: rgba(23, 26, 46, 0.85);
+  // Surfaces — dark charcoal, NOT green
+  --color-canvas: #101012;
+  --color-surface: #18181b;
+  --color-surface-muted: #1f1f23;
+  --color-surface-elevated: #27272a;
+  --color-header-bg: rgba(16, 16, 18, 0.88);
 
-  // Borders
-  --color-border: #2c3150;
-  --color-border-button: #2c3150;
-  --color-border-strong: #3a4066;
+  // Borders — very subtle, slightly warm gray
+  --color-border: #2e2e33;
+  --color-border-button: #3a3a40;
+  --color-border-strong: #44444c;
 
-  // Text
-  --color-text: #e8eaf6;
-  --color-text-muted: #9499b5;
-  --color-text-subtle: #6b7194;
-  --color-text-on-primary: #ffffff;
+  // Text — pure white for readability
+  --color-text: #fafafa;
+  --color-text-muted: #a1a1aa;
+  --color-text-subtle: #71717a;
+  --color-text-on-primary: #0e1f13;
 
   // Chart helpers
-  --color-grid: #262a45;
-  --color-tooltip-bg: #1f2338;
-  --color-tooltip-border: #2c3150;
+  --color-grid: #2e2e33;
+  --color-tooltip-bg: #18181b;
+  --color-tooltip-border: #2e2e33;
 
-  // Shadows (deeper, lower opacity glows)
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px -4px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.55);
+  // Shadows
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px -4px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.65);
   --shadow-card:
-    0 2px 8px -2px rgba(0, 0, 0, 0.4), 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+    0 2px 8px -2px rgba(0, 0, 0, 0.5), 0 8px 24px -10px rgba(0, 0, 0, 0.6);
 
   color-scheme: dark;
 }
