@@ -87,6 +87,7 @@
     svg {
       width: 14px;
       height: 14px;
+      transform: scale(3);
     }
   }
 }
@@ -104,12 +105,16 @@
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   color: var(--color-text);
+  text-align: center;
 }
 
 .leaderboard-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: $spacing-md;
+  div {
+    justify-items: center;
+  }
 }
 
 .leaderboard-stat-label {

@@ -1,4 +1,11 @@
+'use client';
+
+import { useAuth } from '../../hooks/useAuth.jsx';
+
 export default function WelcomeCard() {
+  const { user } = useAuth();
+  const displayName = user?.fullname || user?.username || 'Users';
+
   const getTimeGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Pagi';
@@ -10,7 +17,7 @@ export default function WelcomeCard() {
     <div className="welcome-card">
       <div className="welcome-card-text">
         <h2>
-          Selamat {getTimeGreeting()}, <span className="welcome-name">Users!</span>
+          Selamat {getTimeGreeting()}, <span className="welcome-name">{displayName}!</span>
         </h2>
         <p>Semoga harimu menyenangkan, dan pengeluaran tidak berlebihan</p>
       </div>

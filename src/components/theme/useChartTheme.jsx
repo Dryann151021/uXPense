@@ -27,10 +27,10 @@ const PALETTES = {
 
 // Brand colors stay constant across themes.
 export const CHART_BRAND = {
-  spend: '#6366f1',
-  spendLight: '#818cf8',
-  budget: '#f43f5e',
-  budgetLight: '#fb7185',
+  spend: '#f43f5e',
+  spendLight: '#fb7185',
+  budget: '#6366f1',
+  budgetLight: '#818cf8',
   dot: '#22d3ee',
 };
 

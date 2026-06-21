@@ -1,0 +1,133 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.streak-card {
+  padding: 0 !important; // override default card padding
+  overflow: hidden;
+}
+
+.streak-header {
+  @include flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface-muted);
+
+  .streak-icon {
+    font-size: 1.1rem;
+    opacity: 0.8;
+  }
+
+  .streak-title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+  }
+}
+
+.streak-body {
+  padding: $spacing-lg;
+}
+
+.streak-subtitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-sm;
+  color: var(--color-text);
+}
+
+.streak-desc {
+  font-size: $font-size-sm;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: $spacing-xl;
+}
+
+.streak-stats-row {
+  @include flex-between;
+  margin-bottom: $spacing-xl;
+  align-items: center;
+}
+
+.streak-current {
+  @include flex-start;
+  gap: $spacing-sm;
+  color: var(--color-text);
+
+  .streak-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .streak-thunder-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--color-border); // Grey lightning
+    transition: color 0.3s ease;
+
+    &.active {
+      color: #f59e0b; // Orange flame
+    }
+  }
+}
+
+.streak-longest {
+  font-size: $font-size-sm;
+  color: var(--color-text-muted);
+
+  strong {
+    color: var(--color-text);
+    font-weight: $font-weight-bold;
+    margin-left: 4px;
+    font-size: $font-size-base;
+  }
+}
+
+.streak-week-row {
+  @include flex-between;
+  padding: $spacing-lg;
+  background-color: var(--color-surface-muted);
+  border-radius: $border-radius-lg;
+}
+
+.streak-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+
+  .streak-day-circle {
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    border-radius: $border-radius-full;
+    background-color: var(--color-surface);
+    color: var(--color-border);
+    border: 2px solid var(--color-border);
+    transition: all 0.3s ease;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .streak-day-label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text-muted);
+  }
+
+  &.active {
+    .streak-day-circle {
+      background-color: #f59e0b; // Orange/Yellow flame color
+      border-color: #f59e0b;
+      color: white;
+    }
+
+    .streak-day-label {
+      color: var(--color-text);
+    }
+  }
+}

@@ -28,7 +28,7 @@ export default function BudgetList({
 
   const currentMonth = new Date().toISOString().slice(0, 7);
   const currentMonthExpenses = expenses.filter(
-    (e) => e.date && e.date.startsWith(currentMonth),
+    (e) => e.created_at && e.created_at.startsWith(currentMonth),
   );
 
   return (
@@ -42,9 +42,9 @@ export default function BudgetList({
               .reduce((sum, e) => sum + Number(e.amount), 0);
             const limit = Number(budget.limitAmount);
 
-            const remaining = limit - spent;
-            const remainingPercentage =
-              limit > 0 ? Math.max((remaining / limit) * 100, 0) : 0;
+            const spentPercentage =
+              limit > 0 ? Math.min((spent / limit) * 100, 100) : 0;
+            const isDanger = spentPercentage >= 80;
 
             return (
               <div key={budget.id} className="budget-item">
@@ -58,8 +58,8 @@ export default function BudgetList({
                 </div>
                 <div className="budget-progress">
                   <div
-                    className="budget-progress-fill is-hp-bar"
-                    style={{ width: `${remainingPercentage}%` }}
+                    className={`budget-progress-fill ${isDanger ? 'is-danger' : 'is-hp-bar'}`}
+                    style={{ width: `${spentPercentage}%` }}
                   ></div>
                 </div>
               </div>

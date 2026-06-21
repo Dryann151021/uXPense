@@ -23,14 +23,14 @@ export function LevelProvider({ children, userId }) {
     setError(null);
     try {
       const responseData = await usersApi.getLevel(userId);
-      const levelData = responseData.level || {};
+      const levelData = responseData.level;
       setLevel({
-        current: levelData.current || 1,
-        currentXp: levelData.currentXp || 0,
-        xpRequiredForNext: levelData.xpRequiredForNext || 100,
-        progressPercentage: levelData.progressPercentage || 0,
-        daily: levelData.daily || { expensesCount: 0, remaining: 3 },
-        lastXpDate: levelData.lastXpDate || null,
+        current: levelData.current,
+        currentXp: levelData.currentXp,
+        xpRequiredForNext: levelData.xpRequiredForNext,
+        progressPercentage: levelData.progressPercentage,
+        daily: levelData.daily,
+        lastXpDate: levelData.lastXpDate,
       });
     } catch (err) {
       setError(err.message);
@@ -40,11 +40,27 @@ export function LevelProvider({ children, userId }) {
     }
   }, [userId]);
 
+  // Instantly update level state from createExpense response
+  const updateFromResponse = useCallback((xpData) => {
+    if (!xpData) return;
+    setLevel((prev) => ({
+      ...prev,
+      currentXp: xpData.current ?? prev.currentXp,
+      current: xpData.level ?? prev.current,
+      daily: {
+        expensesCount: xpData.daily?.count ?? prev.daily?.expensesCount ?? 0,
+        remaining: xpData.daily?.remaining ?? prev.daily?.remaining ?? 3,
+      },
+    }));
+  }, []);
+
   // Initial fetch on mount and when userId changes
   useEffect(() => {
-    if (userId) {
-      refetch();
-    }
+    if (!userId) return;
+    const init = async () => {
+      await refetch();
+    };
+    init();
   }, [userId, refetch]);
 
   const value = {
@@ -52,6 +68,7 @@ export function LevelProvider({ children, userId }) {
     loading,
     error,
     refetch,
+    updateFromResponse,
   };
 
   return (
