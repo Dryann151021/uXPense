@@ -23,11 +23,7 @@
     border-radius: $border-radius-full;
     background:
       linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-      linear-gradient(
-          135deg,
-          var(--color-accent-purple),
-          var(--color-primary)
-        )
+      linear-gradient(135deg, var(--color-accent-purple), var(--color-primary))
         border-box;
     border: 2px solid transparent;
     flex-shrink: 0;
@@ -128,6 +124,9 @@
 
   &.flame {
     color: var(--color-accent-flame);
+    svg {
+      transform: scale(1.7);
+    }
   }
   &.gold {
     color: var(--color-warning);

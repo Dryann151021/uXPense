@@ -28,7 +28,7 @@ export default function BudgetPage() {
       ]);
       setBudgets(budgetData);
       setExpenses(expenseData);
-    } catch (err) {
+    } catch {
       setError('Gagal memuat data. Silakan coba lagi.');
     } finally {
       setLoading(false);
@@ -60,7 +60,7 @@ export default function BudgetPage() {
     0,
   );
   const currentMonthExpenses = expenses.filter(
-    (e) => e.date && e.date.startsWith(currentMonth),
+    (e) => e.created_at && e.created_at.startsWith(currentMonth),
   );
   const totalSpent = currentMonthExpenses.reduce(
     (sum, e) => sum + Number(e.amount),
@@ -88,7 +88,7 @@ export default function BudgetPage() {
 
           <div className="grid-2-cols">
             <div>
-              <BudgetForm onSubmit={handleAddBudget} />
+              <BudgetForm onSubmit={handleAddBudget} budgets={budgets} />
             </div>
             <div>
               <BudgetList

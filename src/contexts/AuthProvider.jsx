@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { AuthContext } from './AuthContext.jsx';
 import { authApi } from '../api/auth.js';
+import { usersApi } from '../api/users.js';
 import { decodeJwtPayload } from '../utils/auth.js';
 import { readStorageItem, writeStorageItem, removeStorageItem } from '../utils/storage.js';
 
@@ -24,6 +25,25 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Fetch full user profile after initial load if user id is available
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (user?.id && !user?.username) {
+        try {
+          const res = await usersApi.getById(user.id);
+          const profile = res.user || res;
+          setUser((prev) => ({
+            ...prev,
+            username: profile.username,
+            fullname: profile.fullname,
+          }));
+        } catch (err) {
+          console.error('Failed to fetch user profile:', err);
+        }
+      }
+    };
+    fetchUserProfile();
+  }, [user?.id, user?.username]);
 
   const login = useCallback(async (username, password) => {
     setIsLoading(true);
@@ -39,7 +59,10 @@ export function AuthProvider({ children }) {
 
       const payload = decodeJwtPayload(accessToken);
       setToken({ accessToken, refreshToken });
-      setUser(payload ? { id: payload.id } : { username });
+
+      // Set basic user from payload, full profile will be fetched by useEffect
+      const basicUser = payload ? { id: payload.id } : { username };
+      setUser(basicUser);
 
       return { success: true };
     } catch (err) {

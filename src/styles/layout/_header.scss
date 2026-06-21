@@ -218,18 +218,33 @@
       gap: $spacing-xs;
       font-size: $font-size-sm;
       font-weight: $font-weight-bold;
-      color: var(--color-accent-flame);
-      background-color: var(--color-warning-soft);
       padding: 6px $spacing-md;
       border-radius: $border-radius-full;
+      transition: all 0.3s ease;
+
+      // Inactive state (Grayscale)
+      color: var(--color-text-muted);
+      background-color: var(--color-surface-muted);
 
       .streak-flame {
         @include flex-center;
-        color: var(--color-accent-flame);
+        color: var(--color-border);
+        transition: color 0.3s ease;
 
         svg {
           width: 18px;
           height: 18px;
+          transform: scale(1.7);
+        }
+      }
+
+      // Active state
+      &.active {
+        color: var(--color-accent-flame);
+        background-color: var(--color-warning-soft);
+
+        .streak-flame {
+          color: var(--color-accent-flame);
         }
       }
     }

@@ -107,8 +107,14 @@
   color: var(--color-text);
 }
 
+.quest-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
 .quest-bar {
-  width: 100%;
+  flex: 1;
   height: 22px;
   background-color: var(--color-surface-muted);
   border-radius: $border-radius-full;
@@ -122,13 +128,14 @@
       var(--color-accent-purple) 100%
     );
     border-radius: $border-radius-full;
-    @include flex-center;
     @include transition(width);
-
-    .quest-bar-text {
-      font-size: $font-size-xs;
-      font-weight: $font-weight-bold;
-      color: #fff;
-    }
   }
+}
+
+.quest-bar-text {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
 }

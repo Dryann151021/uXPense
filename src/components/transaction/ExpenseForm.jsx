@@ -3,16 +3,10 @@
 import { useState } from 'react';
 import { useForm } from '../../hooks/useForm.jsx';
 
-const categories = [
-  'Food',
-  'Transport',
-  'Entertainment',
-  'Shopping',
-  'Bills',
-  'Health',
-];
 
-export default function ExpenseForm({ onSubmit }) {
+export default function ExpenseForm({ onSubmit, budgets = [] }) {
+  // Extract unique categories from budgets
+  const categories = [...new Set(budgets.map((b) => b.category))].sort();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -80,7 +74,9 @@ export default function ExpenseForm({ onSubmit }) {
             onChange={handleChange}
             required
           >
-            <option value="">Pilih Kategori</option>
+            <option value="" disabled={categories.length > 0}>
+              {categories.length > 0 ? 'Pilih Kategori' : 'Buat budget terlebih dahulu'}
+            </option>
             {categories.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
