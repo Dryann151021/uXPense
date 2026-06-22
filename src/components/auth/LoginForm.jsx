@@ -34,7 +34,7 @@ export default function LoginForm() {
       return;
     }
 
-    setError(result.error || 'Login gagal. Periksa username dan password.');
+    setError(result.error);
   };
 
   return (
@@ -45,16 +45,14 @@ export default function LoginForm() {
         <div className="auth-heading">
           <h1 className="auth-title">Selamat datang kembali</h1>
           <p className="auth-subtitle">
-          Masuk untuk lanjut mencatat pengeluaran dan kumpulkan XP-mu.
+            Masuk untuk lanjut mencatat pengeluaran dan kumpulkan XP-mu.
           </p>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
-          {error && <p className="form-error">{error}</p>}
-
           <div className="form-group">
             <label className="form-label" htmlFor="username">
-            Username
+              Username
             </label>
             <input
               id="username"
@@ -72,10 +70,10 @@ export default function LoginForm() {
           <div className="form-group">
             <div className="auth-label-row">
               <label className="form-label" htmlFor="password">
-              Password
+                Password
               </label>
               <Link to="/login" className="auth-link-inline">
-              Lupa password?
+                Lupa password?
               </Link>
             </div>
             <div className="auth-input-wrap">
@@ -129,6 +127,12 @@ export default function LoginForm() {
             </div>
           </div>
 
+          {error && (
+            <p className="form-error" role="alert">
+              {error}
+            </p>
+          )}
+
           <button
             type="submit"
             className="btn btn-primary btn-block"
@@ -139,9 +143,9 @@ export default function LoginForm() {
         </form>
 
         <p className="auth-switch">
-        Belum punya akun?{' '}
+          Belum punya akun?{' '}
           <Link to="/register" className="auth-link">
-          Daftar gratis
+            Daftar gratis
           </Link>
         </p>
       </div>

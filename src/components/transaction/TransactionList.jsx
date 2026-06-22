@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import AppModal from '../ui/AppModal.jsx';
 import {
   formatCurrency,
@@ -129,7 +130,18 @@ export default function TransactionList({
     return (
       <div className="card">
         <h3>Daftar Pengeluaran</h3>
-        <div className="transaction-empty">Memuat pengeluaran...</div>
+        <div className="transaction-items" aria-label="Memuat daftar pengeluaran">
+          {Array.from({ length: 4 }, (_, index) => (
+            <div key={index} className="transaction-item">
+              <div className="transaction-item-head">
+                <Skeleton width={132} height={18} />
+                <Skeleton width={104} height={18} />
+              </div>
+              <Skeleton width="48%" height={14} />
+              <Skeleton width={88} height={13} />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
