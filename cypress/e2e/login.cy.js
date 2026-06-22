@@ -16,6 +16,7 @@ describe('Login flow', () => {
     cy.contains('button', 'Masuk').click();
 
     cy.wait('@loginRequest');
+    cy.contains('button', 'Masuk Dashboard').click();
     cy.url().should('include', '/home');
     cy.get('nav').contains('Home').should('exist');
   });

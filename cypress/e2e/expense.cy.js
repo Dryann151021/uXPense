@@ -96,6 +96,7 @@ describe('Expense flow', () => {
     cy.contains('button', 'Masuk').click();
 
     cy.wait('@loginRequest');
+    cy.contains('button', 'Masuk Dashboard').click();
     cy.url().should('include', '/home');
 
     cy.contains('nav a', 'Expense').click();
@@ -106,7 +107,8 @@ describe('Expense flow', () => {
     cy.get('#category').select('Food');
     cy.get('#amount').type('75000');
     cy.get('#description').type('Lunch at restaurant');
-    cy.get('#date').clear().type('2024-06-07');
+    cy.get('#date').clear();
+    cy.get('#date').type('2024-06-07');
 
     cy.contains('button', 'Catat Pengeluaran').click();
 
