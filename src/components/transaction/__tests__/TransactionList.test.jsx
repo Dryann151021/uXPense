@@ -24,7 +24,9 @@ describe('TransactionList', () => {
   it('should show loading state when loading is true', () => {
     render(<TransactionList loading={true} transactions={[]} />);
 
-    expect(screen.getByText(/memuat pengeluaran/i)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/memuat daftar pengeluaran/i),
+    ).toBeInTheDocument();
   });
 
   it('should show error state when error is provided', () => {
