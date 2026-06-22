@@ -1,5 +1,6 @@
 'use client';
 
+import Skeleton from 'react-loading-skeleton';
 import {
   AreaChart,
   Area,
@@ -47,15 +48,11 @@ export default function MonthlyExpenseChart({
       </div>
 
       {loading ? (
-        <div
-          style={{
-            height: 140,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          Loading...
+        <div className="mini-chart-skeleton" aria-label="Memuat grafik mingguan">
+          <Skeleton height={18} width="85%" />
+          <Skeleton height={18} width="55%" />
+          <Skeleton height={18} width="70%" />
+          <Skeleton height={18} width="42%" />
         </div>
       ) : (
         <ResponsiveContainer width="100%" height={140}>

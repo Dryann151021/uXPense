@@ -59,6 +59,29 @@
   }
 }
 
+.chart-skeleton,
+.mini-chart-skeleton {
+  display: grid;
+  align-content: end;
+  gap: $spacing-md;
+}
+
+.chart-skeleton {
+  min-width: 620px;
+  height: 380px;
+  padding-top: $spacing-lg;
+}
+
+.mini-chart-skeleton {
+  height: 140px;
+  padding-top: $spacing-md;
+}
+
+.react-loading-skeleton {
+  --base-color: var(--color-surface-muted);
+  --highlight-color: var(--color-surface);
+}
+
 // ==================== Recorded expense card ====================
 .recorded-head {
   @include flex-between;

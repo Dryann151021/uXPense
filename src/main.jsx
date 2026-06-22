@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { AuthProvider } from './contexts/AuthProvider.jsx';
 import { ThemeProvider } from './contexts/ThemeContext.jsx';
 import App from './App.jsx';
