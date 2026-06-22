@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { readStorageItem, writeStorageItem, removeStorageItem } from '../utils/storage.js';
+import {
+  readStorageItem,
+  writeStorageItem,
+  removeStorageItem,
+} from '../utils/storage.js';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -10,6 +14,14 @@ const client = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+const AUTH_ENDPOINT = '/authentications';
+const isAuthEndpoint = (config) => {
+  const method = config?.method?.toLowerCase();
+  const url = config?.url || '';
+
+  return url.includes(AUTH_ENDPOINT) && ['post', 'put'].includes(method);
+};
 
 // Interceptor untuk menambahkan access token
 client.interceptors.request.use(
@@ -29,6 +41,10 @@ client.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    if (isAuthEndpoint(originalRequest)) {
+      return Promise.reject(error);
+    }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
