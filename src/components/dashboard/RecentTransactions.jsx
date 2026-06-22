@@ -1,13 +1,14 @@
 'use client';
 
 import { Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
 import {
   formatCurrency,
   formatDate,
   getExpenseDate,
 } from '../../utils/format.js';
 
-export default function RecentTransactions({ expenses = [] }) {
+export default function RecentTransactions({ expenses = [], loading = false }) {
   // Sort by created_at descending and get the top 5
   const recent = [...expenses]
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
@@ -38,7 +39,20 @@ export default function RecentTransactions({ expenses = [] }) {
         </Link>
       </div>
 
-      {recent.length > 0 ? (
+      {loading ? (
+        <div className="transaction-items" aria-label="Memuat transaksi terakhir">
+          {Array.from({ length: 3 }, (_, index) => (
+            <div key={index} className="transaction-item">
+              <div className="transaction-item-head">
+                <Skeleton width={140} height={18} />
+                <Skeleton width={96} height={18} />
+              </div>
+              <Skeleton width="55%" height={14} />
+              <Skeleton width={90} height={13} />
+            </div>
+          ))}
+        </div>
+      ) : recent.length > 0 ? (
         <div className="transaction-items">
           {recent.map((transaction) => (
             <div key={transaction.id} className="transaction-item">

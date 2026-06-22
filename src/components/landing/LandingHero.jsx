@@ -20,29 +20,6 @@ export default function LandingHero() {
             Mulai sekarang
           </Link>
         </div>
-        <dl className="landing-stats" hidden>
-          <div className="landing-stat">
-            <dt className="landing-stat-value">12rb+</dt>
-            <dd className="landing-stat-label">Pengguna aktif</dd>
-          </div>
-          <div className="landing-stat">
-            <dt className="landing-stat-value">1,5jt</dt>
-            <dd className="landing-stat-label">Transaksi dicatat</dd>
-          </div>
-          <div className="landing-stat">
-            <dt className="landing-stat-value">4.8/5</dt>
-            <dd className="landing-stat-label">Rating pengguna</dd>
-          </div>
-        </dl>
-      </div>
-
-      <div className="landing-hero-visual">
-        <img
-          src="/landing-hero.png"
-          alt="Tampilan aplikasi Cuan menampilkan progres XP, level, dan grafik pengeluaran"
-          width={520}
-          height={520}
-        />
       </div>
     </section>
   );

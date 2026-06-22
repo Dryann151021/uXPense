@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { useLevelContext } from '../../hooks/useLevelContext.jsx';
 import { useAuth } from '../../hooks/useAuth.jsx';
 import { usersApi } from '../../api/users.js';
@@ -101,7 +102,7 @@ export default function UserStatusCard() {
             className="status-stat-value"
             title={`Total XP: ${level?.currentXp || 0}`}
           >
-            {levelLoading ? '...' : level?.currentXp || 0}
+            {levelLoading ? <Skeleton width={36} /> : level?.currentXp || 0}
           </span>
         </div>
         <div className="status-stat">
@@ -127,7 +128,11 @@ export default function UserStatusCard() {
             className="status-stat-value"
             title={`Quest Harian: ${level?.daily?.expensesCount || 0}/3`}
           >
-            {levelLoading ? '...' : `${level?.daily?.expensesCount || 0}/3`}
+            {levelLoading ? (
+              <Skeleton width={28} />
+            ) : (
+              `${level?.daily?.expensesCount || 0}/3`
+            )}
           </span>
         </div>
         <div className="status-stat">
@@ -149,7 +154,7 @@ export default function UserStatusCard() {
             </svg>
           </span>
           <span className="status-stat-value">
-            {topPercent !== null ? `Top ${topPercent}%` : '...'}
+            {topPercent !== null ? `Top ${topPercent}%` : <Skeleton width={56} />}
           </span>
         </div>
         <div className="status-stat">
@@ -166,7 +171,9 @@ export default function UserStatusCard() {
               <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
             </svg>
           </span>
-          <span className="status-stat-value">{totalExpenses !== null ? totalExpenses : '...'}</span>
+          <span className="status-stat-value">
+            {totalExpenses !== null ? totalExpenses : <Skeleton width={24} />}
+          </span>
         </div>
       </div>
     </div>

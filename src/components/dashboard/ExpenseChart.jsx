@@ -1,5 +1,6 @@
 'use client';
 
+import Skeleton from 'react-loading-skeleton';
 import {
   BarChart,
   Bar,
@@ -39,15 +40,15 @@ export default function ExpenseChart({ data = [], loading = false }) {
         </div>
       </div>
       {loading ? (
-        <div
-          style={{
-            height: 380,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          Loading...
+        <div className="chart-skeleton" aria-label="Memuat grafik">
+          <Skeleton height={32} width="92%" />
+          <Skeleton height={32} width="72%" />
+          <Skeleton height={32} width="84%" />
+          <Skeleton height={32} width="58%" />
+          <Skeleton height={32} width="68%" />
+          <Skeleton height={32} width="78%" />
+          <Skeleton height={32} width="64%" />
+          <Skeleton height={32} width="88%" />
         </div>
       ) : (
         <ResponsiveContainer width="100%" height={380}>

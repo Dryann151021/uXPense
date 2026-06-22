@@ -109,7 +109,7 @@ export default function Home() {
           <div className="dashboard-main">
             <WelcomeCard />
             <ExpenseChart data={yearlyData} loading={loading} />
-            <RecentTransactions expenses={expenses} />
+            <RecentTransactions expenses={expenses} loading={loading} />
           </div>
 
           {/* Right Sidebar */}

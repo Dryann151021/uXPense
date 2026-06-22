@@ -1,5 +1,6 @@
 'use client';
 
+import Skeleton from 'react-loading-skeleton';
 import { useStreakContext } from '../../hooks/useStreakContext.jsx';
 import '../../styles/components/_streak.scss';
 
@@ -9,7 +10,14 @@ export default function StreakCard() {
   if (loading) {
     return (
       <div className="card streak-card">
-        <div className="streak-body">Memuat streak...</div>
+        <div className="streak-header">
+          <Skeleton width={140} height={18} />
+        </div>
+        <div className="streak-body">
+          <Skeleton width={96} height={22} />
+          <Skeleton count={2} />
+          <Skeleton width="65%" />
+        </div>
       </div>
     );
   }

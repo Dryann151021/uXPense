@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import AppModal from '../ui/AppModal.jsx';
 import { formatCurrency, getExpenseMonth } from '../../utils/format.js';
 
@@ -106,7 +107,18 @@ export default function BudgetList({
     return (
       <div className="card">
         <h3>Budget Bulan Ini</h3>
-        <div className="budget-empty">Memuat budget...</div>
+        <div className="budget-list" aria-label="Memuat budget">
+          {Array.from({ length: 3 }, (_, index) => (
+            <div key={index} className="budget-item">
+              <div className="budget-item-head">
+                <Skeleton width={130} height={18} />
+                <Skeleton width={96} height={18} />
+              </div>
+              <Skeleton height={12} />
+              <Skeleton width="45%" height={13} />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

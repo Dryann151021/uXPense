@@ -79,12 +79,12 @@ export default function Header() {
                 <rect width="32" height="32" rx="9" fill="url(#logoGrad)" />
                 <path
                   d="M9 20.5l4-4.5 3.2 3 5.8-7"
-                  stroke="#fff"
+                  stroke="#000000"
                   strokeWidth="2.4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <circle cx="22" cy="12" r="1.6" fill="#fff" />
+                <circle cx="22" cy="12" r="1.6" fill="#000000" />
                 <defs>
                   <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32">
                     <stop stopColor="#d4ff00" />
