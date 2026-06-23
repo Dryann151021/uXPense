@@ -1,5 +1,5 @@
-describe('Login flow', () => {
-  it('should navigate to home after successful login', () => {
+describe('Leaderboard flow', () => {
+  beforeEach(() => {
     cy.intercept('POST', '/authentications', {
       statusCode: 201,
       body: {
@@ -40,14 +40,28 @@ describe('Login flow', () => {
       body: { data: { expenses: [] } },
     });
 
+    cy.intercept('GET', '**/leaderboard', {
+      statusCode: 200,
+      body: {
+        data: {
+          leaderboard: [
+            { username: 'john', level: 5, xp: 500, rank: 1 },
+            { username: 'jane', level: 4, xp: 400, rank: 2 },
+          ],
+        },
+      },
+    });
+
     cy.visit('/login');
     cy.get('#username').type('john');
     cy.get('#password').type('secret');
     cy.contains('button', 'Masuk').click();
-
     cy.wait('@loginRequest');
     cy.contains('button', /masuk dashboard|lanjutkan/i).click();
-    cy.url().should('include', '/home');
+  });
+
+  it('should navigate to leaderboard page', () => {
+    cy.contains('nav a', 'Leaderboard').click();
+    cy.url().should('include', '/leaderboard');
   });
 });
-
