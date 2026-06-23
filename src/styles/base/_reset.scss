@@ -13,6 +13,7 @@ html {
 html,
 body {
   font-family: $font-family-base;
+  /* base font-size uses rem so scaling html font-size will affect all rem values */
   font-size: $font-size-base;
   font-weight: $font-weight-normal;
   line-height: $line-height-normal;
@@ -22,7 +23,31 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition:
     background-color $transition-normal,
-    color $transition-normal;
+    color $transition-normal,
+    font-size $transition-normal;
+}
+
+/* Responsive font scaling
+   - Desktop (default): 1.0
+   - Tablet (between sm+ and lg): 0.9
+   - Mobile (<= sm): 0.7
+*/
+html {
+  /* keep default desktop scale */
+  font-size: 100%;
+  transition: font-size $transition-normal;
+}
+
+@media (max-width: $breakpoint-lg) and (min-width: ($breakpoint-sm + 1px)) {
+  html {
+    font-size: 90%;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  html {
+    font-size: 70%;
+  }
 }
 
 .bg-canvas {
