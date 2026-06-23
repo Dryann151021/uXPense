@@ -24,7 +24,11 @@ export default function AppModal({
       : 'M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z';
 
   return (
-    <div className="app-modal-overlay" role="presentation" onMouseDown={onClose}>
+    <div
+      className="app-modal-overlay"
+      role="presentation"
+      onMouseDown={onClose}
+    >
       <div
         className={`app-modal app-modal--${variant} ${infoClass}`}
         role="dialog"
