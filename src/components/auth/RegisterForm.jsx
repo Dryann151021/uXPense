@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthBrand from './AuthBrand.jsx';
 import AppModal from '../ui/AppModal.jsx';
 import { useForm } from '../../hooks/useForm.jsx';
@@ -14,6 +15,7 @@ export default function RegisterForm() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const { form, handleChange, resetForm } = useForm({
     username: '',
@@ -21,22 +23,32 @@ export default function RegisterForm() {
     password: '',
     confirmPassword: '',
   });
-  const { register } = useAuth();
+  const { register, login } = useAuth();
+  const navigate = useNavigate();
 
   const submitRegister = async () => {
     setError('');
     setLoading(true);
 
     const result = await register(form.username, form.fullname, form.password);
-    setLoading(false);
     setShowConfirmModal(false);
 
-    if (result.success) {
-      resetForm();
+    if (!result.success) {
+      setError(result.error);
+      setLoading(false);
       return;
     }
 
-    setError(result.error);
+    const loginResult = await login(form.username, form.password);
+    setLoading(false);
+
+    if (!loginResult.success) {
+      setError(loginResult.error);
+      return;
+    }
+
+    resetForm();
+    setShowSuccessModal(true);
   };
 
   const handleSubmit = (e) => {
@@ -220,6 +232,15 @@ export default function RegisterForm() {
         confirmDisabled={loading}
         onClose={() => setShowConfirmModal(false)}
         onConfirm={submitRegister}
+      />
+      <AppModal
+        isOpen={showSuccessModal}
+        title="Pendaftaran berhasil"
+        description="Akun kamu telah dibuat dan kamu sudah masuk otomatis. Saatnya membuka dashboard."
+        confirmLabel="Buka Dashboard"
+        showCancel={false}
+        onClose={() => navigate('/home', { replace: true })}
+        onConfirm={() => navigate('/home', { replace: true })}
       />
     </>
   );
