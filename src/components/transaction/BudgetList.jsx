@@ -71,8 +71,9 @@ export default function BudgetList({
     setConfirmAction({
       type: 'edit',
       id,
-      title: 'Simpan perubahan budget?',
-      description: 'Perubahan kategori, limit, dan bulan akan langsung memengaruhi perhitungan budget.',
+      title: 'Simpan perubahan?',
+      description:
+        'Perubahan kategori, limit, dan bulan akan langsung memengaruhi perhitungan budget.',
       confirmLabel: 'Simpan',
       onConfirm: () => saveUpdate(id),
     });
@@ -96,8 +97,9 @@ export default function BudgetList({
     setConfirmAction({
       type: 'delete',
       id: budget.id,
-      title: `Hapus budget "${budget.category}"?`,
-      description: 'Data pengeluaran tidak ikut terhapus, tapi kategori budget ini akan hilang dari daftar.',
+      title: 'Hapus?',
+      description:
+        'Data pengeluaran tidak ikut terhapus, tapi kategori budget ini akan hilang dari daftar.',
       confirmLabel: 'Hapus',
       onConfirm: () => deleteBudget(budget),
     });
@@ -151,7 +153,7 @@ export default function BudgetList({
               const limit = Number(budget.limitAmount);
 
               const spentPercentage =
-              limit > 0 ? Math.min((spent / limit) * 100, 100) : 0;
+                limit > 0 ? Math.min((spent / limit) * 100, 100) : 0;
               const isDanger = spentPercentage >= 80;
 
               return (
@@ -163,7 +165,7 @@ export default function BudgetList({
                     >
                       <div className="inline-edit-grid">
                         <label className="form-label">
-                        Kategori
+                          Kategori
                           <input
                             type="text"
                             name="category"
@@ -174,7 +176,7 @@ export default function BudgetList({
                           />
                         </label>
                         <label className="form-label">
-                        Limit
+                          Limit
                           <input
                             type="number"
                             name="limitAmount"
@@ -185,7 +187,7 @@ export default function BudgetList({
                           />
                         </label>
                         <label className="form-label">
-                        Bulan
+                          Bulan
                           <input
                             type="month"
                             name="month"
@@ -209,7 +211,7 @@ export default function BudgetList({
                           onClick={cancelEdit}
                           disabled={busyId === budget.id}
                         >
-                        Batal
+                          Batal
                         </button>
                       </div>
                     </form>
@@ -236,7 +238,7 @@ export default function BudgetList({
                           className="btn btn-secondary btn-compact"
                           onClick={() => startEdit(budget)}
                         >
-                        Edit
+                          Edit
                         </button>
                         <button
                           type="button"

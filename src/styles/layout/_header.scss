@@ -202,6 +202,28 @@
       }
     }
 
+    /* Notification inside profile dropdown (hidden by default) */
+    .profile-dropdown-notification {
+      display: none;
+      @include btn-reset;
+      @include flex-start;
+      gap: $spacing-md;
+      width: 100%;
+      padding: $spacing-sm $spacing-lg;
+      font-size: $font-size-sm;
+      color: var(--color-text);
+      cursor: pointer;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .notification-badge {
+        margin-left: auto;
+      }
+    }
+
     .notification-badge {
       position: absolute;
       top: 8px;
@@ -250,6 +272,7 @@
     }
 
     .user-avatar-outline {
+      position: relative;
       width: 40px;
       height: 40px;
       border-radius: $border-radius-full;
@@ -270,10 +293,46 @@
         transform: scale(1.05);
       }
 
+      .notification-dot {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        width: 12px;
+        height: 12px;
+        background-color: var(--color-danger);
+        border: 2px solid var(--color-surface);
+        border-radius: $border-radius-full;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      }
+
       &.lg {
         width: 48px;
         height: 48px;
         border-width: 2px;
+
+        .notification-dot {
+          top: -6px;
+          right: -6px;
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+}
+
+/* Mobile: move notification into profile dropdown */
+@media (max-width: $breakpoint-sm) {
+  .header {
+    .header-right {
+      .header-icon {
+        display: none;
+      }
+    }
+
+    .profile-dropdown {
+      .profile-dropdown-notification {
+        display: flex;
       }
     }
   }
@@ -290,7 +349,12 @@
     border-radius: $border-radius-full;
     background:
       linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-      linear-gradient(135deg, var(--color-accent-neon), var(--color-primary-hover)) border-box;
+      linear-gradient(
+          135deg,
+          var(--color-accent-neon),
+          var(--color-primary-hover)
+        )
+        border-box;
     border: 2px solid transparent;
     cursor: pointer;
     flex-shrink: 0;
@@ -318,8 +382,14 @@
   animation: dropdownFadeIn 0.15s ease;
 
   @keyframes dropdownFadeIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
@@ -431,6 +501,73 @@
   border-radius: $border-radius-full;
   background-color: var(--color-surface-muted);
   color: var(--color-text-subtle);
+}
+
+/* Numeric notification badge inside profile dropdown */
+.profile-dropdown .notification-badge {
+  margin-left: auto;
+  background-color: var(--color-danger);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: $border-radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  min-width: 22px;
+  text-align: center;
+  border: none;
+}
+
+/* Responsive icon scaling with smooth transitions */
+.header {
+  .logo-mark,
+  .theme-toggle,
+  .header-icon,
+  .user-avatar-outline,
+  .profile-dropdown-avatar,
+  .profile-dropdown .theme-toggle,
+  .mobile-menu-btn,
+  .streak-display .streak-flame {
+    transition: transform $transition-normal;
+    transform-origin: center;
+  }
+}
+
+/* Tablet: scale icons to 0.9 */
+@media (max-width: $breakpoint-lg) and (min-width: ($breakpoint-sm + 1px)) {
+  .header {
+    .logo-mark,
+    .theme-toggle,
+    .header-icon,
+    .user-avatar-outline,
+    .profile-dropdown-avatar,
+    .mobile-menu-btn,
+    .profile-dropdown .theme-toggle {
+      transform: scale(0.9);
+    }
+
+    .streak-display .streak-flame svg {
+      transform: scale(1.53); // 1.7 * 0.9 approx
+    }
+  }
+}
+
+/* Mobile: scale icons to 0.7 */
+@media (max-width: $breakpoint-sm) {
+  .header {
+    .logo-mark,
+    .theme-toggle,
+    .header-icon,
+    .user-avatar-outline,
+    .profile-dropdown-avatar,
+    .mobile-menu-btn,
+    .profile-dropdown .theme-toggle {
+      transform: scale(0.7);
+    }
+
+    .streak-display .streak-flame svg {
+      transform: scale(1); // 1.7 * 0.7 approx
+    }
+  }
 }
 
 .theme-toggle {

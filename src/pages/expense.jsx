@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Header from '../components/layout/Header.jsx';
+import AppModal from '../components/ui/AppModal.jsx';
 import ExpenseForm from '../components/transaction/ExpenseForm.jsx';
 import TransactionList from '../components/transaction/TransactionList.jsx';
 import StreakModal from '../components/dashboard/StreakModal.jsx';
@@ -18,6 +19,9 @@ export default function ExpensePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showStreakModal, setShowStreakModal] = useState(false);
+  const [showExpenseSuccessModal, setShowExpenseSuccessModal] = useState(false);
+  const [expenseSuccessMessage, setExpenseSuccessMessage] = useState('');
+  const [deferExpenseSuccess, setDeferExpenseSuccess] = useState(false);
   const [activatedStreakCount, setActivatedStreakCount] = useState(0);
   const { refetch: refetchStreak } = useStreakContext();
   const { refetch: refetchLevel, updateFromResponse } = useLevelContext();
@@ -64,6 +68,12 @@ export default function ExpensePage() {
       if (result?.xp?.daily?.count === 1) {
         setActivatedStreakCount(result.streak.current);
         setShowStreakModal(true);
+        setDeferExpenseSuccess(true);
+      }
+
+      setExpenseSuccessMessage('Pengeluaran berhasil ditambahkan.');
+      if (result?.xp?.daily?.count !== 1) {
+        setShowExpenseSuccessModal(true);
       }
 
       return { success: true };
@@ -160,8 +170,23 @@ export default function ExpensePage() {
 
         <StreakModal
           isOpen={showStreakModal}
-          onClose={() => setShowStreakModal(false)}
+          onClose={() => {
+            setShowStreakModal(false);
+            if (deferExpenseSuccess) {
+              setDeferExpenseSuccess(false);
+              setShowExpenseSuccessModal(true);
+            }
+          }}
           streakCount={activatedStreakCount}
+        />
+        <AppModal
+          isOpen={showExpenseSuccessModal}
+          title="Transaksi berhasil"
+          description={expenseSuccessMessage}
+          confirmLabel="Oke"
+          showCancel={false}
+          onClose={() => setShowExpenseSuccessModal(false)}
+          onConfirm={() => setShowExpenseSuccessModal(false)}
         />
       </main>
     </>

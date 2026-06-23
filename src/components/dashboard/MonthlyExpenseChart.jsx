@@ -48,14 +48,17 @@ export default function MonthlyExpenseChart({
       </div>
 
       {loading ? (
-        <div className="mini-chart-skeleton" aria-label="Memuat grafik mingguan">
+        <div
+          className="mini-chart-skeleton"
+          aria-label="Memuat grafik mingguan"
+        >
           <Skeleton height={18} width="85%" />
           <Skeleton height={18} width="55%" />
           <Skeleton height={18} width="70%" />
           <Skeleton height={18} width="42%" />
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height={140}>
+        <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
             margin={{ top: 10, right: 5, bottom: 0, left: 5 }}

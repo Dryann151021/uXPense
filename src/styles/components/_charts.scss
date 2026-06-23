@@ -11,7 +11,22 @@
 
   .recharts-responsive-container {
     width: 100% !important;
-    height: auto !important;
+    /* Default (desktop) */
+    height: 380px !important;
+  }
+
+  /* Tablet: reduce height */
+  @media (max-width: $breakpoint-lg) and (min-width: ($breakpoint-sm + 1px)) {
+    .recharts-responsive-container {
+      height: 260px !important;
+    }
+  }
+
+  /* Mobile: further reduce height */
+  @media (max-width: $breakpoint-sm) {
+    .recharts-responsive-container {
+      height: 180px !important;
+    }
   }
 }
 

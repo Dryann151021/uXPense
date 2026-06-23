@@ -20,6 +20,7 @@ export default function Header() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [notifCount, setNotifCount] = useState(3); // placeholder notification count
   const profileRef = useRef(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -157,6 +158,9 @@ export default function Header() {
                   objectFit: 'cover',
                 }}
               />
+              {notifCount > 0 && !isProfileOpen && (
+                <span className="notification-dot" aria-hidden="true"></span>
+              )}
             </button>
 
             {isProfileOpen && (
@@ -173,6 +177,27 @@ export default function Header() {
                     <p className="profile-dropdown-role">Level User</p>
                   </div>
                 </div>
+
+                {/* Notification (visible in dropdown on mobile) */}
+                <button
+                  type="button"
+                  className="profile-dropdown-item profile-dropdown-notification"
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    // future: open notifications panel
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                  </svg>
+                  Notifikasi
+                  {notifCount > 0 ? (
+                    <span className="notification-badge" aria-hidden="true">{notifCount}</span>
+                  ) : (
+                    <span className="notification-badge" aria-hidden="true"></span>
+                  )}
+                </button>
 
                 <div className="profile-dropdown-divider" />
 

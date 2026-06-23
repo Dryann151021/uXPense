@@ -51,7 +51,7 @@ export default function ExpenseChart({ data = [], loading = false }) {
           <Skeleton height={32} width="88%" />
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height={380}>
+        <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             margin={{ top: 20, right: 20, bottom: 10, left: 0 }}

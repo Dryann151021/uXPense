@@ -16,15 +16,21 @@ export default function AppModal({
     return null;
   }
 
+  const infoClass = !showCancel ? 'app-modal--info' : '';
+
   const iconPath =
     variant === 'danger'
       ? 'M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z'
       : 'M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z';
 
   return (
-    <div className="app-modal-overlay" role="presentation" onMouseDown={onClose}>
+    <div
+      className="app-modal-overlay"
+      role="presentation"
+      onMouseDown={onClose}
+    >
       <div
-        className={`app-modal app-modal--${variant}`}
+        className={`app-modal app-modal--${variant} ${infoClass}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="app-modal-title"
