@@ -56,24 +56,22 @@ export default function ExpensePage() {
   const handleAddExpense = async (payload) => {
     try {
       const result = await expenseApi.createExpense(payload);
-      // Instantly update quest bar from response without waiting for full refetch
-      if (result?.xp) {
+      if (result.xp) {
         updateFromResponse(result.xp);
       }
       await loadExpenses();
       // Refetch streak and level for full sync
       await Promise.all([refetchStreak(), refetchLevel()]);
 
-      // Jika ini adalah transaksi pertama hari ini, tampilkan modal streak
+      setExpenseSuccessMessage('Pengeluaran berhasil ditambahkan.');
+      if (result?.xp?.daily?.count !== 1) {
+        setShowExpenseSuccessModal(true);
+      }
+
       if (result?.xp?.daily?.count === 1) {
         setActivatedStreakCount(result.streak.current);
         setShowStreakModal(true);
         setDeferExpenseSuccess(true);
-      }
-
-      setExpenseSuccessMessage('Pengeluaran berhasil ditambahkan.');
-      if (result?.xp?.daily?.count !== 1) {
-        setShowExpenseSuccessModal(true);
       }
 
       return { success: true };
@@ -117,7 +115,6 @@ export default function ExpensePage() {
     (sum, expense) => sum + Number(expense.amount || 0),
     0,
   );
-  const activeCategories = new Set(expenses.map((expense) => expense.category));
 
   return (
     <>
@@ -138,18 +135,13 @@ export default function ExpensePage() {
               <span>{currentMonthExpenses.length} transaksi</span>
             </div>
             <div className="expense-summary-card">
-              <span className="expense-summary-label">Kategori Aktif</span>
-              <strong>{activeCategories.size}</strong>
-              <span>kategori tercatat</span>
-            </div>
-            <div className="expense-summary-card">
               <span className="expense-summary-label">Total Catatan</span>
               <strong>{expenses.length}</strong>
               <span>pengeluaran tersimpan</span>
             </div>
           </div>
 
-          <div className="grid-2-cols expense-layout">
+          <div className="expense-layout">
             <div>
               <ExpenseForm onSubmit={handleAddExpense} budgets={budgets} />
             </div>
