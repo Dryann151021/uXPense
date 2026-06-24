@@ -23,8 +23,8 @@
   gap: $spacing-md;
   margin-bottom: $spacing-xl;
 
-  @include respond-to('md') {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  @include respond-to('sm') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -47,7 +47,11 @@
     bottom: 0;
     height: 3px;
     border-radius: $border-radius-full $border-radius-full 0 0;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-success));
+    background: linear-gradient(
+      90deg,
+      var(--color-primary),
+      var(--color-success)
+    );
   }
 
   strong {
@@ -71,7 +75,13 @@
 }
 
 .expense-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-lg;
   align-items: start;
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .expense-form-card,
