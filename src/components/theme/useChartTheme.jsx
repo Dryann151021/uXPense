@@ -29,7 +29,7 @@ const PALETTES = {
 export const CHART_BRAND = {
   spend: '#f43f5e',
   spendLight: '#fb7185',
-  budget: '#0a2512', // Dark green for light mode
+  budget: '#177534', // Dark green for light mode
   budgetLight: '#d4ff00', // Neon lime for dark mode
   dot: '#d4ff00',
 };

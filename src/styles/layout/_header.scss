@@ -236,13 +236,14 @@
     }
 
     .streak-display {
-      @include flex-start;
+      @include flex-center;
       gap: $spacing-xs;
       font-size: $font-size-sm;
       font-weight: $font-weight-bold;
       padding: 6px $spacing-md;
       border-radius: $border-radius-full;
       transition: all 0.3s ease;
+      transform: scale(1);
 
       // Inactive state (Grayscale)
       color: var(--color-text-muted);
@@ -295,8 +296,8 @@
 
       .notification-dot {
         position: absolute;
-        top: -6px;
-        right: -6px;
+        top: -4px;
+        right: -4px;
         width: 12px;
         height: 12px;
         background-color: var(--color-danger);
@@ -321,7 +322,7 @@
   }
 }
 
-/* Mobile: move notification into profile dropdown */
+// Mobile Breakpoint
 @media (max-width: $breakpoint-sm) {
   .header {
     .header-right {
@@ -341,30 +342,6 @@
 // ── Profile menu wrapper ──────────────────────────────────────────
 .profile-menu {
   position: relative;
-
-  .user-avatar-outline {
-    @include btn-reset;
-    width: 40px;
-    height: 40px;
-    border-radius: $border-radius-full;
-    background:
-      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-      linear-gradient(
-          135deg,
-          var(--color-accent-neon),
-          var(--color-primary-hover)
-        )
-        border-box;
-    border: 2px solid transparent;
-    cursor: pointer;
-    flex-shrink: 0;
-    @include transition(transform);
-    overflow: hidden;
-
-    &:hover {
-      transform: scale(1.05);
-    }
-  }
 }
 
 // ── Profile dropdown panel ────────────────────────────────────────
@@ -545,8 +522,16 @@
       transform: scale(0.9);
     }
 
-    .streak-display .streak-flame svg {
-      transform: scale(1.53); // 1.7 * 0.9 approx
+    .user-avatar-outline {
+      transform: scale(0.9);
+    }
+
+    .streak-display {
+      .streak-flame {
+        svg {
+          transform: scale(1.4);
+        }
+      }
     }
   }
 }
@@ -554,18 +539,34 @@
 /* Mobile: scale icons to 0.7 */
 @media (max-width: $breakpoint-sm) {
   .header {
+    height: auto;
+    padding: $spacing-xs $spacing-md;
     .logo-mark,
     .theme-toggle,
     .header-icon,
-    .user-avatar-outline,
     .profile-dropdown-avatar,
     .mobile-menu-btn,
     .profile-dropdown .theme-toggle {
-      transform: scale(0.7);
+      transform: scale(0.6);
     }
 
-    .streak-display .streak-flame svg {
-      transform: scale(1); // 1.7 * 0.7 approx
+    .user-avatar-outline {
+      transform: scale(0.6);
+    }
+
+    .header-left,
+    .header-right {
+      gap: 1px;
+    }
+
+    .streak-display {
+      transform: scale(0.7) !important;
+      font-size: $font-size-lg !important;
+      .streak-flame {
+        svg {
+          transform: scale(1.2);
+        }
+      }
     }
   }
 }
@@ -609,24 +610,54 @@
   }
 }
 
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 998;
+  animation: mobileOverlayFadeIn 0.2s ease;
+}
+
 .mobile-menu {
   position: fixed;
   top: $header-height;
   left: 0;
-  right: 0;
+  bottom: 0;
+  width: min(82vw, 280px);
   background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   gap: 0;
   z-index: 999;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+  overflow-y: auto;
 
   @include respond-to('md') {
     display: none !important;
   }
 
+  &.open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
+
   .mobile-menu-link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
     padding: $spacing-md $spacing-lg;
     color: var(--color-text);
     @include transition(all);
@@ -641,6 +672,7 @@
     &:hover {
       background-color: var(--color-surface-muted);
       color: var(--color-primary);
+      transform: translateX(2px);
     }
 
     &.active {
@@ -648,5 +680,22 @@
       color: var(--color-primary);
       font-weight: $font-weight-semibold;
     }
+  }
+
+  .mobile-menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    flex-shrink: 0;
+  }
+}
+
+@keyframes mobileOverlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
