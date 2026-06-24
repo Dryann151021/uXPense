@@ -9,23 +9,56 @@
     margin-bottom: $spacing-lg;
   }
 
-  .recharts-responsive-container {
+  #expense-chart-container {
     width: 100% !important;
-    /* Default (desktop) */
     height: 380px !important;
   }
 
-  /* Tablet: reduce height */
+  #weekly-chart-container {
+    width: 100% !important;
+    height: 200px !important;
+  }
+
+  #expense-xaxis,
+  #expense-yaxis,
+  #weekly-xaxis,
+  #weekly-yaxis {
+    font-size: 14px;
+  }
+
+  // Tablet Breakpoint
   @media (max-width: $breakpoint-lg) and (min-width: ($breakpoint-sm + 1px)) {
-    .recharts-responsive-container {
+    #expense-chart-container {
       height: 260px !important;
+    }
+
+    #weekly-chart-container {
+      height: 140px !important;
+    }
+
+    #expense-xaxis,
+    #expense-yaxis,
+    #weekly-xaxis,
+    #weekly-yaxis {
+      font-size: 14px;
     }
   }
 
-  /* Mobile: further reduce height */
+  // Mobile Breakpoint
   @media (max-width: $breakpoint-sm) {
-    .recharts-responsive-container {
+    #expense-chart-container {
       height: 180px !important;
+    }
+
+    #weekly-chart-container {
+      height: 120px !important;
+    }
+
+    #expense-xaxis,
+    #expense-yaxis,
+    #weekly-xaxis,
+    #weekly-yaxis {
+      font-size: 9px;
     }
   }
 }

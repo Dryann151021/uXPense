@@ -51,10 +51,16 @@ export default function ExpenseChart({ data = [], loading = false }) {
           <Skeleton height={32} width="88%" />
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer
+          id="expense-chart-container"
+          width="100%"
+          height="100%"
+        >
           <BarChart
             data={data}
-            margin={{ top: 20, right: 20, bottom: 10, left: 0 }}
+            margin={{ top: 20, right: 10, bottom: 10, left: -25 }}
+            barCategoryGap="20%"
+            barGap={4}
           >
             <defs>
               <linearGradient id="barSpend" x1="0" y1="1" x2="0" y2="0">
@@ -72,19 +78,30 @@ export default function ExpenseChart({ data = [], loading = false }) {
               vertical={false}
             />
             <XAxis
+              id="expense-xaxis"
               dataKey="name"
-              tick={{ fontSize: 11, fill: chart.axis }}
+              padding={{ left: 0, right: 0 }}
+              tick={{ fill: chart.axis }}
               tickLine={false}
               axisLine={{ stroke: chart.axisLine }}
               interval={0}
               tickMargin={10}
             />
             <YAxis
+              id="expense-yaxis"
               domain={[0, 'auto']}
-              tick={{ fontSize: 11, fill: chart.axis }}
+              tick={{ fill: chart.axis }}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => (value > 0 ? `${value / 1000}k` : 0)}
+              tickFormatter={(value) => {
+                if (value >= 1000000) {
+                  const millions = value / 1000000;
+                  return Number.isInteger(millions)
+                    ? `${millions} jt`
+                    : `${millions.toFixed(1)} jt`;
+                }
+                return value > 0 ? `${value / 1000}k` : 0;
+              }}
             />
             <Tooltip
               cursor={{ fill: chart.tooltipBg, opacity: 0.4 }}

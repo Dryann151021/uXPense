@@ -58,7 +58,11 @@ export default function MonthlyExpenseChart({
           <Skeleton height={18} width="42%" />
         </div>
       ) : (
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer
+          id="weekly-chart-container"
+          width="100%"
+          height="100%"
+        >
           <AreaChart
             data={data}
             margin={{ top: 10, right: 5, bottom: 0, left: 5 }}
@@ -82,8 +86,12 @@ export default function MonthlyExpenseChart({
               stroke={chart.grid}
               vertical={false}
             />
-            <XAxis dataKey="name" interval="preserveStartEnd" />
-            <YAxis hide domain={[0, 'auto']} />
+            <XAxis
+              id="weekly-xaxis"
+              dataKey="name"
+              interval="preserveStartEnd"
+            />
+            <YAxis id="weekly-yaxis" hide domain={[0, 'auto']} />
             <Tooltip
               cursor={{
                 stroke: chart.cursor,

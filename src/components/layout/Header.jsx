@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FaHome, FaFileInvoiceDollar, FaTrophy } from 'react-icons/fa';
+import { BsCashCoin } from 'react-icons/bs';
 import { useAuth } from '../../hooks/useAuth.jsx';
 import { useStreakContext } from '../../hooks/useStreakContext.jsx';
 import { useTheme } from '../../hooks/useTheme.jsx';
@@ -9,10 +11,10 @@ import ThemeToggle from '../theme/ThemeToggle.jsx';
 import AppModal from '../ui/AppModal.jsx';
 
 const navLinks = [
-  { to: '/home', label: 'Home' },
-  { to: '/budget', label: 'Budget' },
-  { to: '/expense', label: 'Expense' },
-  { to: '/leaderboard', label: 'Leaderboard' },
+  { to: '/home', label: 'Home', icon: <FaHome /> },
+  { to: '/budget', label: 'Budget', icon: <BsCashCoin /> },
+  { to: '/expense', label: 'Expense', icon: <FaFileInvoiceDollar /> },
+  { to: '/leaderboard', label: 'Leaderboard', icon: <FaTrophy /> },
 ];
 
 export default function Header() {
@@ -20,24 +22,40 @@ export default function Header() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [notifCount, setNotifCount] = useState(3); // placeholder notification count
+  const [notifCount] = useState(3);
   const profileRef = useRef(null);
+  const mobileMenuRef = useRef(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { logout, user } = useAuth();
   const { streak } = useStreakContext();
   const { resolvedTheme } = useTheme();
 
-  // Close dropdown when clicking outside
+  // Close dropdown and mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (profileRef.current && !profileRef.current.contains(e.target)) {
+      const clickedInsideProfile = profileRef.current?.contains(e.target);
+      const clickedInsideMobileMenu = mobileMenuRef.current?.contains(e.target);
+      const clickedMobileMenuButton = e.target.closest('.mobile-menu-btn');
+      const clickedMobileMenuLink = e.target.closest('.mobile-menu-link');
+
+      if (!clickedInsideProfile) {
         setIsProfileOpen(false);
       }
+
+      if (
+        isMobileMenuOpen &&
+        !clickedInsideMobileMenu &&
+        !clickedMobileMenuButton &&
+        !clickedMobileMenuLink
+      ) {
+        setIsMobileMenuOpen(false);
+      }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isMobileMenuOpen]);
 
   const today = new Date();
   const todayStr = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
@@ -275,20 +293,25 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile Navigation Menu Overlay */}
       {isMobileMenuOpen && (
-        <nav className="mobile-menu">
-          {navLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={`mobile-menu-link ${pathname === link.to ? 'active' : ''}`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <>
+          <div className="mobile-menu-overlay" />
+
+          <nav ref={mobileMenuRef} className="mobile-menu open">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`mobile-menu-link ${pathname === link.to ? 'active' : ''}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="mobile-menu-icon">{link.icon}</span>
+                <span>{link.label}</span>
+              </Link>
+            ))}
+          </nav>
+        </>
       )}
 
       <AppModal
