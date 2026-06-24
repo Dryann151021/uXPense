@@ -294,24 +294,25 @@ export default function Header() {
       </header>
 
       {/* Mobile Navigation Menu Overlay */}
-      {isMobileMenuOpen && <div className="mobile-menu-overlay" />}
+      {isMobileMenuOpen && (
+        <>
+          <div className="mobile-menu-overlay" />
 
-      <nav
-        ref={mobileMenuRef}
-        className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}
-      >
-        {navLinks.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-            className={`mobile-menu-link ${pathname === link.to ? 'active' : ''}`}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            <span className="mobile-menu-icon">{link.icon}</span>
-            <span>{link.label}</span>
-          </Link>
-        ))}
-      </nav>
+          <nav ref={mobileMenuRef} className="mobile-menu open">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`mobile-menu-link ${pathname === link.to ? 'active' : ''}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="mobile-menu-icon">{link.icon}</span>
+                <span>{link.label}</span>
+              </Link>
+            ))}
+          </nav>
+        </>
+      )}
 
       <AppModal
         isOpen={showLogoutModal}
