@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaHome, FaFileInvoiceDollar, FaTrophy } from 'react-icons/fa';
 import { BsCashCoin } from 'react-icons/bs';
 import { useAuth } from '../../hooks/useAuth.jsx';
+import { usePushNotifications } from '../../hooks/usePushNotifications.jsx';
 import { useStreakContext } from '../../hooks/useStreakContext.jsx';
 import { useTheme } from '../../hooks/useTheme.jsx';
 import ThemeToggle from '../theme/ThemeToggle.jsx';
@@ -22,13 +23,20 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [notifCount] = useState(3);
   const profileRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { logout, user } = useAuth();
+  const {
+    enablePushNotifications,
+    isEnabled: isPushEnabled,
+    isLoading: isPushLoading,
+    message: pushMessage,
+    status: pushStatus,
+  } = usePushNotifications();
   const { streak } = useStreakContext();
   const { resolvedTheme } = useTheme();
 
@@ -75,6 +83,15 @@ export default function Header() {
     setIsLoggingOut(false);
     setShowLogoutModal(false);
     navigate('/', { replace: true });
+  };
+
+  const handleEnableNotifications = async () => {
+    const result = await enablePushNotifications();
+    setShowNotificationModal(true);
+
+    if (result.success) {
+      setIsProfileOpen(false);
+    }
   };
 
   return (
@@ -131,7 +148,17 @@ export default function Header() {
         {/* Right section - Icons and User */}
         <div className="header-right">
           {/* Notification Bell */}
-          <button className="header-icon" aria-label="Notifications">
+          <button
+            className={`header-icon ${isPushEnabled ? 'active' : ''}`}
+            aria-label="Aktifkan notifikasi reminder"
+            title={
+              isPushEnabled
+                ? 'Reminder jam 9 malam aktif'
+                : 'Aktifkan reminder jam 9 malam'
+            }
+            disabled={isPushLoading}
+            onClick={handleEnableNotifications}
+          >
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -141,7 +168,9 @@ export default function Header() {
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             </svg>
-            <span className="notification-badge" aria-hidden="true"></span>
+            {isPushEnabled && (
+              <span className="notification-badge" aria-hidden="true"></span>
+            )}
           </button>
 
           {/* Streak Display */}
@@ -175,7 +204,7 @@ export default function Header() {
                   objectFit: 'cover',
                 }}
               />
-              {notifCount > 0 && !isProfileOpen && (
+              {isPushEnabled && !isProfileOpen && (
                 <span className="notification-dot" aria-hidden="true"></span>
               )}
             </button>
@@ -199,10 +228,8 @@ export default function Header() {
                 <button
                   type="button"
                   className="profile-dropdown-item profile-dropdown-notification"
-                  onClick={() => {
-                    setIsProfileOpen(false);
-                    // future: open notifications panel
-                  }}
+                  disabled={isPushLoading}
+                  onClick={handleEnableNotifications}
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -213,10 +240,10 @@ export default function Header() {
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                   </svg>
-                  Notifikasi
-                  {notifCount > 0 ? (
+                  {isPushEnabled ? 'Reminder Aktif' : 'Aktifkan Reminder'}
+                  {isPushEnabled ? (
                     <span className="notification-badge" aria-hidden="true">
-                      {notifCount}
+                      ✓
                     </span>
                   ) : (
                     <span
@@ -322,6 +349,22 @@ export default function Header() {
         confirmDisabled={isLoggingOut}
         onClose={() => setShowLogoutModal(false)}
         onConfirm={handleLogout}
+      />
+
+      <AppModal
+        isOpen={showNotificationModal}
+        title={
+          pushStatus === 'enabled'
+            ? 'Reminder aktif'
+            : 'Reminder belum aktif'
+        }
+        description={
+          pushMessage ||
+          'Browser akan menampilkan reminder jika izin notifikasi diberikan.'
+        }
+        confirmLabel="Mengerti"
+        showCancel={false}
+        onClose={() => setShowNotificationModal(false)}
       />
     </>
   );
